@@ -97,6 +97,23 @@ class MaterializeModalClass
     @open()
 
 
+  form: (@options = {}) ->
+    if not options.bodyTemplate?
+      toast("Error: No template specified!", 3000, "red")
+    else
+      _.defaults @options, 
+        type: 'form'
+        title: "Edit Record"
+        submitLabel: '<i class="mdi-content-save left"></i>Save'
+        closeLabel: '<i class="mdi-content-block left"></i>Cancel'
+      , @defaults
+
+      if options.smallForm
+        options.size = 'modal-sm'
+        options.btnSize = 'btn-sm'
+      @open()
+
+
   addValueToObjFromDotString: (obj, dotString, value) ->
     path = dotString.split(".")
     tmp = obj
@@ -160,24 +177,7 @@ class MaterializeModalClass
       @set("message", message)
 
 
-  formWithOptions: (options, data, callback) ->
-    if options?.template?
-      _.defaults options,
-        title: "Edit Record"
-        submitText: 'Submit'
-        cancelText: 'Cancel'
-      if not data
-        data = {}
-      @_setData('', options.title, options.template, data)
-      @type = "form"
-      @callback = callback
-      @set("closeLabel", options.cancelText)
-      @set("submitLabel", options.submitText)
-      if options.smallForm
-        @set("size", 'modal-sm')
-        @set("btnSize", 'btn-sm')
-      $(".has-error").removeClass('has-error')
-      @_show()
+  
 
   form: (templateName, data, callback, title = "Edit Record", okText = 'Submit') ->
     if DEBUG
@@ -227,6 +227,7 @@ Template.materializeModal.destroyed = ->
 Template.materializeModal.helpers
 
   template: ->
+    console.log("render template?", @) if DEBUG
     if @bodyTemplate? and Template[@bodyTemplate]?
       console.log("render template", @bodyTemplate) if DEBUG
       @bodyTemplate
