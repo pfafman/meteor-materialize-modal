@@ -1,0 +1,104 @@
+
+<template name="materializeModal">
+  <div id="materializeModal" class="modal materialize-modal">
+    <div class="modal-content">
+      <h4 class="modal-title" id="materializeModalLabel">
+        {{#if icon}}<i class="{{icon}}"></i>{{/if}}
+        {{{title}}}
+      </h4>
+      <p>
+        {{#if errorMessage}}
+          <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert">
+              <span aria-hidden="true">&times;</span>
+              <span class="sr-only">Close</span>
+            </button>
+            {{errorMessage}}
+          </div>
+        {{/if}}
+        {{#if template}}
+          {{> Template.dynamic template=template data=templateData}}
+        {{else}}
+          {{{message}}}
+        {{/if}}
+      </p>
+    </div>
+
+    <div class="modal-footer">
+      {{#if closeLabel}}
+        <a href="#" id="closeButton" class="waves-effect btn-flat {{btnSize}} modal-action">{{closeLabel}}</a>
+      {{/if}}
+      <a href="#" id="submitButton" class="waves-effect btn-flat modal-action {{btnSize}} ">{{submitLabel}}</a>
+    </div>
+  </div>
+</template>
+
+
+<!-- Templates to insert into the mainBody above -->
+
+<template name="materializeModalAlert">
+  <div class="alert alert-warning">
+    <strong id='label'>{{label}}</strong> <span id='message'>{{{message}}}</span>
+  </div>
+</template>
+
+<template name="materializeModalError">
+  <div class="alert alert-danger">
+    <h4 id='label'>{{label}}</h4> 
+    <strong id ='message'>{{message}}</strong>
+  </div>
+</template>
+
+<template name="materializeModalPrompt">
+  <div class="prompt">
+    <div class="row">
+      <div class="col s12">
+        {{message}}
+      </div>
+    </div>
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="prompt-input" class="validate" type="text"
+            required autofocus />
+          <label for="prompt-input">{{placeholder}}</label>
+        </div>
+      </div>
+    </form>
+  </div>
+</template>
+
+<template name="materializeModalProgress">
+  <div id='progressBar' class="progress progress-striped active">
+    <div id="progressBarDisplay" class="bar" style="width: 0%;"></div>
+  </div>
+  <div id="progressMessage">
+    {{message}}
+  </div>
+</template>
+
+<template name="materializeModalstatus">
+  <div id="statusMessage">
+    <i class="fa fa-spinner fa-spin fa-2x"></i>  
+    <span class="room-for-spin" id="progressMessage">{{progressMessage}}</span>
+  </div>
+</template>
+
+<template name="materializeModalSelect">
+  <p><strong>{{message}}</strong></p>
+  <select>
+    {{#each items}}
+      <option value="{{number}}">{{displayName}}</option>
+      {{#each childeren}}
+        <option value="{{number}}"> &nbsp; {{displayName}}</option>
+      {{/each}}
+    {{/each}}
+  </select>
+</template>
+
+<template name="materializeModalLoading">
+<div class='row'>
+  <div class='span1'><img class="loadingImg" style="valign: middle" src="img/loading.gif" /></div>
+  <div class='offset1'><strong id='loadingMessage'>{{message}}</strong></div>
+</div>
+</template>
