@@ -128,26 +128,28 @@ class MaterializeModalClass
 
 
   fromForm: (form) ->
+    console.log("fromForm", form) if DEBUG
     result = {}
-    form = $(form)
     for key in form.serializeArray() # This Works do not change!!!
       @addValueToObjFromDotString(result, key.name, key.value)
     # Override the result with the boolean values of checkboxes, if any
     for check in form.find "input:checkbox"
       if $(check).prop('name')
         result[$(check).prop('name')] = $(check).prop 'checked'
+    console.log("fromForm result", result) if DEBUG
     result
 
 
 
-  doCallback: (yesNo, event = null) ->
+
+  doCallback: (yesNo, event, form) ->
     switch @options.type
       when 'prompt'
         returnVal = $('#prompt-input').val()
       when 'select'
         returnVal = $('select option:selected')
       when 'form'
-        returnVal = @fromForm(event.target)
+        returnVal = @fromForm(form)
       else
         returnVal = null
 
@@ -175,30 +177,6 @@ class MaterializeModalClass
         $("#progressMessage").fadeIn(400)
     else
       @set("message", message)
-
-
-  
-
-  form: (templateName, data, callback, title = "Edit Record", okText = 'Submit') ->
-    if DEBUG
-      console.log("form", templateName, data, title)
-    @_setData('', title, templateName, data)
-    @type = "form"
-    @callback = callback
-    @set("closeLabel", "Cancel")
-    @set("submitLabel", okText)
-    @_show()
-
-  smallForm: (templateName, data, callback, title = "Edit Record", okText = 'Submit') ->
-    #console.log("form", templateName, data)
-    @_setData('', title, templateName, data)
-    @type = "form"
-    @callback = callback
-    @set("closeLabel", "Cancel")
-    @set("submitLabel", okText)
-    @set("size", 'modal-sm')
-    @set("btnSize", 'btn-sm')
-    @_show()
 
 ###
 
@@ -253,22 +231,25 @@ Template.materializeModal.helpers
 
 Template.materializeModal.events
   "click #closeButton": (e, tmpl) ->
+    e.preventDefault()
     MaterializeModal.doCallback(false, e)
     MaterializeModal.close()
 
 
   "click #submitButton": (e, tmpl) ->
-    MaterializeModal.doCallback(true, e)
+    e.preventDefault()
+    console.log('submit e, form', e, tmpl.$('form')) if DEBUG
+    MaterializeModal.doCallback(true, e, tmpl.$('form'))
     MaterializeModal.close()
 
 
-  'submit #modalDialogForm': (e, tmpl) ->
-    e.preventDefault()
-    try
-      MaterializeModal.doCallback(true, e)
-      MaterializeModal.close()
-    catch err
-      MaterializeModal.errorMessage.set(err.reason)
+  #'submit #modalDialogForm': (e, tmpl) ->
+  #  e.preventDefault()
+  #  try
+  #    MaterializeModal.doCallback(true, e)
+  #    MaterializeModal.close()
+  #  catch err
+  #    MaterializeModal.errorMessage.set(err.reason)
       
 
 

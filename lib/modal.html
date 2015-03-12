@@ -17,7 +17,9 @@
           </div>
         {{/if}}
         {{#if template}}
-          {{> Template.dynamic template=template data=templateData}}
+          <form id="modalDialogForm">
+            {{> Template.dynamic template=template data=templateData}}
+          </form>
         {{else}}
           {{{message}}}
         {{/if}}
@@ -26,9 +28,9 @@
 
     <div class="modal-footer">
       {{#if closeLabel}}
-        <a href="#" id="closeButton" class="waves-effect btn-flat {{btnSize}} modal-action">{{{closeLabel}}}</a>
+        <button id="closeButton" class="waves-effect btn-flat {{btnSize}}">{{{closeLabel}}}</button>
       {{/if}}
-      <a href="#" id="submitButton" class="waves-effect btn-flat modal-action {{btnSize}} ">{{{submitLabel}}}</a>
+      <button id="submitButton" type="submit" class="waves-effect btn-flat {{btnSize}}">{{{submitLabel}}}</button>
     </div>
   </div>
 </template>
@@ -56,7 +58,7 @@
         {{message}}
       </div>
     </div>
-    <form class="col s12">
+    <div class="col s12">
       <div class="row">
         <div class="input-field col s12">
           <input id="prompt-input" class="validate" type="text"
@@ -64,7 +66,7 @@
           <label for="prompt-input">{{placeholder}}</label>
         </div>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 
