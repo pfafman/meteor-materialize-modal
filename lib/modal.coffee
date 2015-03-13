@@ -1,5 +1,5 @@
 
-DEBUG = true
+DEBUG = false
 
 class MaterializeModalClass
 
@@ -130,10 +130,10 @@ class MaterializeModalClass
   fromForm: (form) ->
     console.log("fromForm", form) if DEBUG
     result = {}
-    for key in form.serializeArray() # This Works do not change!!!
+    for key in form?.serializeArray() # This Works do not change!!!
       @addValueToObjFromDotString(result, key.name, key.value)
     # Override the result with the boolean values of checkboxes, if any
-    for check in form.find "input:checkbox"
+    for check in form?.find "input:checkbox"
       if $(check).prop('name')
         result[$(check).prop('name')] = $(check).prop 'checked'
     console.log("fromForm result", result) if DEBUG
@@ -143,15 +143,17 @@ class MaterializeModalClass
 
 
   doCallback: (yesNo, event, form) ->
-    switch @options.type
-      when 'prompt'
-        returnVal = $('#prompt-input').val()
-      when 'select'
-        returnVal = $('select option:selected')
-      when 'form'
-        returnVal = @fromForm(form)
-      else
-        returnVal = null
+    if yesNo
+      switch @options.type
+        when 'prompt'
+          returnVal = $('#prompt-input').val()
+        when 'select'
+          returnVal = $('select option:selected')
+        when 'form'
+          if form?
+            returnVal = @fromForm(form)
+        else
+          returnVal = null
 
     if @options.callback?
       @options.callback(yesNo, returnVal, event)

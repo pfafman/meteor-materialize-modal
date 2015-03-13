@@ -9,7 +9,7 @@ A pattern to display application modal dialogs via a Materialize, written in cof
 Install via atmosphere.
 
 ```bash
-mrt add pfafman:materialize-modal
+meteor add pfafman:materialize-modal
 ```
 
 ##Usage
