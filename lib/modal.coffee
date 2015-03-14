@@ -15,8 +15,8 @@ class MaterializeModalClass
 
 
   constructor: ->
-    @errorMessage = new ReactiveVar(null)
-
+    @errorMessage = new ReactiveVar()
+    @bodyTemplate = new ReactiveVar()
 
   reset: ->
     @options = @defaults
@@ -25,6 +25,7 @@ class MaterializeModalClass
     
 
   open: ->
+    @bodyTemplate.set(@options.bodyTemplate)
     @tmpl = Blaze.renderWithData(Template.materializeModal, @options, document.body)
     
 
@@ -37,6 +38,11 @@ class MaterializeModalClass
 
   modalReady: ->
     console.log("materializeModal is open")
+
+
+  setTemplate: (template) ->
+    @options.bodyTemplate = template
+    @bodyTemplate.set(template)
 
 
   message: (@options = {}) ->
@@ -160,8 +166,6 @@ class MaterializeModalClass
 
 
 ###
-  
-
 
   status: (message, callback, title = 'Status', cancelText = 'Cancel') ->
     @_setData message, title, "materializeModalstatus",
@@ -207,13 +211,17 @@ Template.materializeModal.destroyed = ->
 Template.materializeModal.helpers
 
   template: ->
+    bodyTemplate = MaterializeModal.bodyTemplate.get()
     console.log("render template?", @) if DEBUG
-    if @bodyTemplate? and Template[@bodyTemplate]?
-      console.log("render template", @bodyTemplate) if DEBUG
-      @bodyTemplate
+    if bodyTemplate? and Template[@bodyTemplate]?
+      console.log("render template", bodyTemplate) if DEBUG
+      bodyTemplate
+
 
   templateData: ->
-    @
+    if MaterializeModal.bodyTemplate.get()?
+      @
+
 
   isForm: ->
     MaterializeModal.type is 'form'
