@@ -1,7 +1,7 @@
 Package.describe({
     name: "pfafman:materialize-modal",
     summary: "Display a modal via Materialize written in coffeescript",
-  version: "0.1.2",
+  version: "0.1.3",
   git: "https://github.com/pfafman/meteor-materialize-modal.git"
 });
 
@@ -12,13 +12,14 @@ Package.on_use(function(api, where) {
         'underscore',
         'templating',
         'ui',
+        'less',
         'jquery',
         'coffeescript',
         'reactive-var',
     ], 'client');
 
     api.add_files([
-        'lib/modal.css',
+        'lib/modal.less',
         'lib/modal.html',
         'lib/modal.coffee'
     ], 'client');

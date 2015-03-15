@@ -3,20 +3,33 @@
 .materialize-modal {
   color: #333 !important;
   background-color: #f6f6f6 !important;
+
+  .modal-content {
+    color: #333;
+    background-color: #f6f6f6;
+  }
+
+  .modal-footer {
+    color: #333 !important;;
+    background-color: #f6f6f6 !important;;
+  }
 }
 
 .materialize-modal.modal {
   max-height: 75%;
 }
 
-.materialize-modal .modal-content {
-  color: #333;
-  background-color: #f6f6f6;
-}
 
-.materialize-modal .modal-footer {
-  color: #333 !important;;
-  background-color: #f6f6f6 !important;;
+.materialize-modal.full-screen {
+  height: 100%;
+  position: absolute;
+  top: 0 !important;
+  right: 0px;
+  border-radius: 0;
+  max-height: 100%;
+  overflow: auto;
+  width: 100%;
+  padding: 0.5em;
 }
 
 /*

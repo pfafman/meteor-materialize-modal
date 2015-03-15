@@ -190,7 +190,6 @@ class MaterializeModalClass
 MaterializeModal = new MaterializeModalClass()
 
 
-
 Template.materializeModal.created = ->
   console.log("materializeModal created") if DEBUG
 
