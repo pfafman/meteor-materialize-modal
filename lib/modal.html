@@ -1,12 +1,12 @@
 
 <template name="materializeModal">
-  <div id="materializeModal" class="materialize-modal modal {{#if fullScreen}}full-screen{{/if}}">
+  <div id="materializeModal" class="materialize-modal modal modal-fixed-footer {{#if fullScreen}}full-screen{{/if}}">
     <div class="modal-content">
       <h4 class="modal-title" id="materializeModalLabel">
         {{#if icon}}<i class="{{icon}}"></i>{{/if}}
         {{{title}}}
       </h4>
-      <p>
+      <p class="modal-body">
         {{#if errorMessage}}
           <div class="alert alert-danger alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert">
