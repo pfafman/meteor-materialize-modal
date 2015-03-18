@@ -1,5 +1,5 @@
 
-DEBUG = false
+DEBUG = true
 
 class MaterializeModalClass
 
@@ -27,7 +27,7 @@ class MaterializeModalClass
   open: ->
     @bodyTemplate.set(@options.bodyTemplate)
     @tmpl = Blaze.renderWithData(Template.materializeModal, @options, document.body)
-    
+
 
   close: ->
     $('#materializeModal').closeModal
@@ -36,8 +36,8 @@ class MaterializeModalClass
     @reset()
 
 
-  modalReady: ->
-    console.log("materializeModal is open")
+  modalReady: (tmpl) ->
+    console.log("materializeModal is open") if DEBUG
 
 
   setTemplate: (template) ->
@@ -46,7 +46,7 @@ class MaterializeModalClass
 
 
   message: (@options = {}) ->
-    _.defaults @options, 
+    _.defaults @options,
       message: 'You need to pass a message to materialize modal!'
       title: 'Message'
     , @defaults
@@ -55,7 +55,7 @@ class MaterializeModalClass
 
 
   alert: (@options = {}) ->
-    _.defaults options, 
+    _.defaults options,
       type: 'alert'
       message: 'Alert'
       title: 'Alert'
@@ -67,7 +67,7 @@ class MaterializeModalClass
 
 
   error: (@options = {}) ->
-    _.defaults options, 
+    _.defaults options,
       type: 'error'
       message: 'Error'
       title: 'Error'
@@ -78,8 +78,8 @@ class MaterializeModalClass
     @open()
 
 
-  confirm: (@options = {}) ->  
-    _.defaults @options, 
+  confirm: (@options = {}) ->
+    _.defaults @options,
       type: 'confirm'
       message: 'Message'
       title: 'Confirm'
@@ -89,8 +89,8 @@ class MaterializeModalClass
     @open()
 
 
-  prompt: (@options = {}) -> #(message, callback, title = 'Prompt', okText = 'Submit', placeholder = "Enter something ...") ->
-    _.defaults @options, 
+  prompt: (@options = {}) ->
+    _.defaults @options,
       type: 'prompt'
       message: 'Feedback?'
       title: 'Prompt'
@@ -103,11 +103,22 @@ class MaterializeModalClass
     @open()
 
 
+  loading: (@options = {}) ->
+    _.defaults @options,
+      message: 'Loading ...'
+      title: 'Loading'
+      bodyTemplate: 'materializeModalLoading'
+      submitLabel: 'Cancel'
+    , @defaults
+
+    @open()
+
+
   form: (@options = {}) ->
     if not options.bodyTemplate?
       toast("Error: No template specified!", 3000, "red")
     else
-      _.defaults @options, 
+      _.defaults @options,
         type: 'form'
         title: "Edit Record"
         submitLabel: '<i class="mdi-content-save left"></i>Save'
@@ -196,8 +207,18 @@ Template.materializeModal.onCreated ->
 
 Template.materializeModal.onRendered ->
   console.log("materializeModal rendered", @data.title)  if DEBUG
+  inDuration = 300
+  if @data.fullscreen
+    inDuration = 0
   $('#materializeModal').openModal
-    ready: MaterializeModal.modalReady()
+    in_duration: inDuration
+    ready: =>
+      if @data.fullscreen
+        Meteor.setTimeout ->
+          console.log("move top for fullscreen") if DEBUG
+          @$('#materializeModal').css('top', 0)
+        , 5
+      MaterializeModal.modalReady(@)
 
 #    Meteor.defer ->
 #        $('#prompt-input')?.focus()
@@ -229,12 +250,15 @@ Template.materializeModal.helpers
     MaterializeModal.errorMessage.get()
 
   icon: ->
-    console.log("icon: type", @type) if DEBUG
-    switch @type
-      when 'alert'
-        'mdi-alert-warning'
-      when 'error'
-        'mdi-alert-error'
+    if @icon
+      @icon
+    else
+      console.log("icon: type", @type) if DEBUG
+      switch @type
+        when 'alert'
+          'mdi-alert-warning'
+        when 'error'
+          'mdi-alert-error'
 
 
 Template.materializeModal.events

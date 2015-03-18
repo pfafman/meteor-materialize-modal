@@ -1,6 +1,8 @@
 
 <template name="materializeModal">
-  <div id="materializeModal" class="materialize-modal modal modal-fixed-footer {{#if fullScreen}}full-screen{{/if}}">
+  <div id="materializeModal" class="materialize-modal modal 
+    {{#if fixedFooter}}modal-fixed-footer{{/if}} 
+    {{#if fullscreen}}full-screen{{/if}}">
     <div class="modal-content">
       <h4 class="modal-title" id="materializeModalLabel">
         {{#if icon}}<i class="{{icon}}"></i>{{/if}}
@@ -99,8 +101,22 @@
 </template>
 
 <template name="materializeModalLoading">
-<div class='row'>
-  <div class='span1'><img class="loadingImg" style="valign: middle" src="img/loading.gif" /></div>
-  <div class='offset1'><strong id='loadingMessage'>{{message}}</strong></div>
-</div>
+  <div class='row'>
+    <div class='col s4 center-align'>
+      <div class="preloader-wrapper big active">
+        <div class="spinner-layer spinner-blue-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class='col s8'>
+      <strong id='loadingMessage'>{{message}}</strong>
+    </div>
+  </div>
 </template>
