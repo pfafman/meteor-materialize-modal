@@ -190,11 +190,11 @@ class MaterializeModalClass
 MaterializeModal = new MaterializeModalClass()
 
 
-Template.materializeModal.created = ->
+Template.materializeModal.onCreated ->
   console.log("materializeModal created") if DEBUG
 
 
-Template.materializeModal.rendered = ->
+Template.materializeModal.onRendered ->
   console.log("materializeModal rendered", @data.title)  if DEBUG
   $('#materializeModal').openModal
     ready: MaterializeModal.modalReady()
@@ -203,7 +203,7 @@ Template.materializeModal.rendered = ->
 #        $('#prompt-input')?.focus()
 
 
-Template.materializeModal.destroyed = ->
+Template.materializeModal.onDestroyed ->
   console.log("materializeModal destroyed") if DEBUG
 
 
@@ -237,7 +237,6 @@ Template.materializeModal.helpers
         'mdi-alert-error'
 
 
-
 Template.materializeModal.events
   "click #closeButton": (e, tmpl) ->
     e.preventDefault()
@@ -252,16 +251,7 @@ Template.materializeModal.events
     MaterializeModal.close()
 
 
-  #'submit #modalDialogForm': (e, tmpl) ->
-  #  e.preventDefault()
-  #  try
-  #    MaterializeModal.doCallback(true, e)
-  #    MaterializeModal.close()
-  #  catch err
-  #    MaterializeModal.errorMessage.set(err.reason)
-      
-
-
 Template.materializeModalstatus.helpers
   progressMessage: ->
     #....
+
