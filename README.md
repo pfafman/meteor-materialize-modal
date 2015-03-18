@@ -3,7 +3,7 @@ Meteor-Materialize-Modal
 
 A pattern to display application modal dialogs via a [Materialize](http://materializecss.com), written in coffeescript.
 
-Warning: ***WIP***
+*Warning: Only works with Meteor 1.0.4+*
 
 ## Install
 
