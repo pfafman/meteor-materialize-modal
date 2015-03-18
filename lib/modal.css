@@ -1,32 +1,8 @@
-
-
 .materialize-modal {
   color: #000;
-  //background-color: #f6f6f6;
-
-  .modal-content {
-    //color: #333;
-    //background-color: #f6f6f6;
-
-    .modal-body {
-      //height: 50%;
-    }
-  }
-
-  .modal-footer {
-    //color: #333;
-    //background-color: #f6f6f6;
-  }
 }
-
-.materialize-modal.modal {
-  //max-height: 75%;
-}
-
-
 .materialize-modal.full-screen {
   height: 100%;
-  max-height: 100%;
   position: absolute;
   top: 0;
   right: 0px;
@@ -35,15 +11,7 @@
   overflow: auto;
   width: 100%;
   padding: 0.5em;
-
-  .modal-content {
-    .modal-body {
-      //height: 100%;
-    }
-  }
-
 }
-
 /*
 .materialize-modal .modal-content .modal-title {
   font-size: 2.28rem;
