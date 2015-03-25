@@ -25,7 +25,7 @@ Package.on_use(function(api, where) {
 
   if (api.export) {
     api.export('MaterializeModal')
-    }
+  }
 
 });
 
