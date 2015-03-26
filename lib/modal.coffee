@@ -157,8 +157,6 @@ class MaterializeModalClass
     result
 
 
-
-
   doCallback: (yesNo, event, form) ->
     if yesNo
       switch @options.type
