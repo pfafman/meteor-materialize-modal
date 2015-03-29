@@ -1,5 +1,5 @@
 
-DEBUG = true
+DEBUG = false
 
 class MaterializeModalClass
 
