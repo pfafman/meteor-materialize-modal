@@ -60,7 +60,7 @@ MaterializeModal.error
     message: 'some message'
 
 MaterializeModal.confirm
-    title: 'title
+    title: 'title'
     message: 'You feeling groovy?'
     callback: (yesNo) ->
     	if yesNo

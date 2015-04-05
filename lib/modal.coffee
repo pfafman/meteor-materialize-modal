@@ -116,7 +116,7 @@ class MaterializeModalClass
 
   form: (@options = {}) ->
     if not options.bodyTemplate?
-      toast("Error: No template specified!", 3000, "red")
+      Materialize.toast("Error: No template specified!", 3000, "red")
     else
       _.defaults @options,
         type: 'form'
