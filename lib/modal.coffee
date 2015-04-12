@@ -1,6 +1,12 @@
 
 DEBUG = false
 
+t9nIt = (string) ->
+  T9n?.get?(string) or string
+  
+Template.registerHelper 'mmT9nit', (string) ->
+  t9nIt(string)
+
 class MaterializeModalClass
 
   defaults:
@@ -9,7 +15,7 @@ class MaterializeModalClass
     body_template_data: {}
     type: 'message'
     closeLabel: null
-    submitLabel: 'OK'
+    submitLabel: t9nIt 'OK'
 
   options: {}
 
@@ -47,8 +53,8 @@ class MaterializeModalClass
 
   message: (@options = {}) ->
     _.defaults @options,
-      message: 'You need to pass a message to materialize modal!'
-      title: 'Message'
+      message: t9nIt 'You need to pass a message to materialize modal!'
+      title: t9nIt 'Message'
     , @defaults
 
     @open()
@@ -57,9 +63,9 @@ class MaterializeModalClass
   alert: (@options = {}) ->
     _.defaults options,
       type: 'alert'
-      message: 'Alert'
-      title: 'Alert'
-      label: "Alert"
+      message: t9nIt 'Alert'
+      title: t9nIt 'Alert'
+      label: t9nIt "Alert"
       bodyTemplate: "materializeModalAlert"
       @defaults
 
@@ -69,9 +75,9 @@ class MaterializeModalClass
   error: (@options = {}) ->
     _.defaults options,
       type: 'error'
-      message: 'Error'
-      title: 'Error'
-      label: "Error"
+      message: t9nIt 'Error'
+      title: t9nIt 'Error'
+      label: t9nIt "Error"
       bodyTemplate: "materializeModalError"
     , @defaults
     
@@ -81,9 +87,9 @@ class MaterializeModalClass
   confirm: (@options = {}) ->
     _.defaults @options,
       type: 'confirm'
-      message: 'Message'
-      title: 'Confirm'
-      closeLabel: 'Cancel'
+      message: t9nIt 'Message'
+      title: t9nIt 'Confirm'
+      closeLabel: t9nIt 'cancel'
     , @defaults
 
     @open()
@@ -92,12 +98,12 @@ class MaterializeModalClass
   prompt: (@options = {}) ->
     _.defaults @options,
       type: 'prompt'
-      message: 'Feedback?'
-      title: 'Prompt'
+      message: t9nIt 'Feedback?'
+      title: t9nIt 'Prompt'
       bodyTemplate: 'materializeModalPrompt'
-      closeLabel: 'Cancel'
-      submitLabel: 'Submit'
-      placeholder: "Type something here"
+      closeLabel: t9nIt 'cancel'
+      submitLabel: t9nIt 'submit'
+      placeholder: t9nIt "Type something here"
     , @defaults
 
     @open()
@@ -105,10 +111,10 @@ class MaterializeModalClass
 
   loading: (@options = {}) ->
     _.defaults @options,
-      message: 'Loading ...'
-      title: 'Loading'
+      message: t9nIt('Loading') + ' ...'
+      title: t9nIt 'Loading'
       bodyTemplate: 'materializeModalLoading'
-      submitLabel: 'Cancel'
+      submitLabel: t9nIt 'cancel'
     , @defaults
 
     @open()
@@ -116,13 +122,13 @@ class MaterializeModalClass
 
   form: (@options = {}) ->
     if not options.bodyTemplate?
-      Materialize.toast("Error: No template specified!", 3000, "red")
+      Materialize.toast(t9nIt "Error: No template specified!", 3000, "red")
     else
       _.defaults @options,
         type: 'form'
-        title: "Edit Record"
-        submitLabel: '<i class="mdi-content-save left"></i>Save'
-        closeLabel: '<i class="mdi-content-block left"></i>Cancel'
+        title: t9nIt "Edit Record"
+        submitLabel: '<i class="mdi-content-save left"></i>' + t9nIt('save')
+        closeLabel: '<i class="mdi-content-block left"></i>' + t9nIt('cancel')
       , @defaults
 
       if options.smallForm

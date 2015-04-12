@@ -33,6 +33,7 @@ meteor add pfafman:materialize-modal
 * closeLabel - Text for close/dismiss button
 * submitLabel - Text for ok/submit button
 * fixedFooter - (bool) true if you want to use a [fixed footer](http://materializecss.com/modals.html#fixed-footer)
+* bottomSheet - (bool) true if you want a bottom sheet modal
 * fullscreen - (bool) Modal takes up all the full screen
 
 ## UI
@@ -64,15 +65,15 @@ MaterializeModal.confirm
     message: 'You feeling groovy?'
     callback: (yesNo) ->
     	if yesNo
-    	    toast("Glad to here it!", 3000, 'green')
+    	    Materialize.toast("Glad to here it!", 3000, 'green')
     	else
-    		toast("Too bad")
+    		Materialize.toast("Too bad")
 
 MaterializeModal.prompt
 	message: 'Enter something'
 	callback: (yesNo, rtn, event) ->
 		if yesNo
-			toast("You entered #{rtn}", 3000, 'green')
+			Materialize.toast("You entered #{rtn}", 3000, 'green')
 
 MaterializeModal.form
 	bodyTemplate: 'testForm'
