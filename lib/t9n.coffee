@@ -1,3 +1,8 @@
+
+DEBUG = false
+
+console.log("Modal T9n", T9n) if DEBUG
+
 en =
   'Close': 'Close'
   'OK': 'OK'
@@ -15,7 +20,7 @@ en =
   "Error: No template specified!": "Error: No template specified!"
   "Edit Record": "Edit Record"
   
-T9n?.map? "en", en
+T9n?.map?("en", en)
 
 
 it =
@@ -35,7 +40,7 @@ it =
   "You need to pass a message to materialize modal!": "È necessario passare un messaggio a materializzarsi modale!"
   "Close": "Vicino"
   
-T9n?.map? "it", it
+T9n?.map?("it", it)
 
 
 sk =
@@ -55,7 +60,84 @@ sk =
   "You need to pass a message to materialize modal!": "Musíte odovzdať správu zhmotniť modálne!"
   "Loading": "Nakladanie"
 
-T9n?.map? "sk", sk
+T9n?.map?("sk", sk)
+
+cs =
+  "Feedback?": "Zpětná vazba?"
+  "submit": "předložit"
+  "cancel": "zrušit"
+  "Confirm": "Potvrdit"
+  "Prompt": "Okamžitý"
+  "Type something here": "Typ něco zde"
+  "Alert": "Poplach"
+  "Edit Record": "Upravit záznam"
+  "Loading": "Nakládání"
+  "Error": "Chyba"
+  "Message": "Zpráva"
+  "OK": "OK"
+  "Error: No template specified!": "Chyba: žádná šablona uvedeno!"
+  "Close": "Zavřít"
+  "You need to pass a message to materialize modal!": "Musíte předat zprávu zhmotnit modální!"
+
+T9n?.map?("cs", cs)
+
+fr =
+  "Close": "Près"
+  "Message": "Message"
+  "OK": "OK"
+  "Loading": "Chargement"
+  "submit": "soumettre"
+  "Type something here": "Tapez quelque chose ici"
+  "cancel": "annuler"
+  "Edit Record": "Modifier un enregistrement"
+  "Error": "Erreur"
+  "Confirm": "Confirmer"
+  "Feedback?": "Commentaires?"
+  "Error: No template specified!": "Erreur: Aucun modèle spécifié!"
+  "You need to pass a message to materialize modal!": "Vous devez passer un message à concrétiser modale!"
+  "Alert": "Alerte"
+  "Prompt": "Rapide"
+
+T9n?.map?("fr", fr)
+
+de =
+  "Close": "In der Nähe"
+  "Loading": "Laden"
+  "Alert": "Alarm"
+  "OK": "OK"
+  "submit": "einreichen"
+  "Feedback?": "Feedback?"
+  "Error": "Fehler"
+  "cancel": "stornieren"
+  "Error: No template specified!": "Fehler: nicht Vorlage angegeben!"
+  "Edit Record": "Datensatz bearbeiten"
+  "Type something here": "Geben Sie hier etwas"
+  "Confirm": "Bestätigen"
+  "Message": "Nachricht"
+  "You need to pass a message to materialize modal!": "Sie müssen eine Nachricht übergeben zu materialisieren modalen!"
+  "Prompt": "Prompt"
+
+T9n?.map?("de", de)
+
+
+es =
+  "Close": "Cerca"
+  "OK": "OK"
+  "Error": "Error"
+  "Feedback?": "Comentarios?"
+  "submit": "presentar"
+  "Prompt": "Rápido"
+  "Type something here": "Escriba algo aquí"
+  "Edit Record": "Editar registro"
+  "Error: No template specified!": "Error: No plantilla especificada!"
+  "Alert": "Alerta"
+  "Message": "Mensaje"
+  "cancel": "cancelar"
+  "You need to pass a message to materialize modal!": "Tiene que pasar un mensaje a materializarse modal!"
+  "Confirm": "Confirmar"
+  "Loading": "Cargando"
+
+T9n?.map?('es', 'es')
 
 
   

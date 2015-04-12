@@ -20,7 +20,7 @@
           </div>
         {{/if}}
         {{#if template}}
-          <form id="modalDialogForm">
+          <form id="modalDialogForm" class="{{formClass}}">
             {{> Template.dynamic template=template data=templateData}}
           </form>
         {{else}}

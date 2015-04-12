@@ -16,6 +16,7 @@ class MaterializeModalClass
     type: 'message'
     closeLabel: null
     submitLabel: t9nIt 'OK'
+    inputSelector: "#prompt-input"
 
   options: {}
 
@@ -167,7 +168,7 @@ class MaterializeModalClass
     if yesNo
       switch @options.type
         when 'prompt'
-          returnVal = $('#prompt-input').val()
+          returnVal = $(@options.inputSelector).val()
         when 'select'
           returnVal = $('select option:selected')
         when 'form'
