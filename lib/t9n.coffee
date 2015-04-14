@@ -7,6 +7,7 @@ en =
   'Close': 'Close'
   'OK': 'OK'
   'ok': 'ok'
+  'Ok': 'Ok'
   'You need to pass a message to materialize modal!':'You need to pass a message to materialize modal!'
   'Message': 'Message'
   'Alert': 'Alert'
