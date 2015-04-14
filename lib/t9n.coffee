@@ -6,6 +6,7 @@ console.log("Modal T9n", T9n) if DEBUG
 en =
   'Close': 'Close'
   'OK': 'OK'
+  'ok': 'ok'
   'You need to pass a message to materialize modal!':'You need to pass a message to materialize modal!'
   'Message': 'Message'
   'Alert': 'Alert'
@@ -30,6 +31,7 @@ it =
   "Prompt": "Pronto"
   "Type something here": "Digita qualcosa qui"
   "OK": "OK"
+  'ok': 'ok'
   "Message": "Messaggio"
   "Error": "Errore"
   "Edit Record": "Modifica record"
@@ -45,6 +47,7 @@ T9n?.map?("it", it)
 
 sk =
   "OK": "OK"
+  'ok': 'ok'
   "Error": "Chyba"
   "Confirm": "Potvrdiť"
   "Alert": "Poplach"
@@ -75,6 +78,7 @@ cs =
   "Error": "Chyba"
   "Message": "Zpráva"
   "OK": "OK"
+  'ok': 'ok'
   "Error: No template specified!": "Chyba: žádná šablona uvedeno!"
   "Close": "Zavřít"
   "You need to pass a message to materialize modal!": "Musíte předat zprávu zhmotnit modální!"
@@ -85,6 +89,7 @@ fr =
   "Close": "Près"
   "Message": "Message"
   "OK": "OK"
+  'ok': 'ok'
   "Loading": "Chargement"
   "submit": "soumettre"
   "Type something here": "Tapez quelque chose ici"
@@ -105,6 +110,7 @@ de =
   "Loading": "Laden"
   "Alert": "Alarm"
   "OK": "OK"
+  'ok': 'ok'
   "submit": "einreichen"
   "Feedback?": "Feedback?"
   "Error": "Fehler"
@@ -123,6 +129,7 @@ T9n?.map?("de", de)
 es =
   "Close": "Cerca"
   "OK": "OK"
+  'ok': 'ok'
   "Error": "Error"
   "Feedback?": "Comentarios?"
   "submit": "presentar"
