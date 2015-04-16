@@ -15,7 +15,7 @@ class MaterializeModalClass
     body_template_data: {}
     type: 'message'
     closeLabel: null
-    submitLabel: t9nIt 'OK'
+    submitLabel: 'ok'
     inputSelector: "#prompt-input"
 
   options: {}
@@ -56,6 +56,7 @@ class MaterializeModalClass
     _.defaults @options,
       message: t9nIt 'You need to pass a message to materialize modal!'
       title: t9nIt 'Message'
+      submitLabel: t9nIt 'ok'
     , @defaults
 
     @open()
@@ -68,6 +69,7 @@ class MaterializeModalClass
       title: t9nIt 'Alert'
       label: t9nIt "Alert"
       bodyTemplate: "materializeModalAlert"
+      submitLabel: t9nIt 'ok'
       @defaults
 
     @open()
@@ -80,6 +82,7 @@ class MaterializeModalClass
       title: t9nIt 'Error'
       label: t9nIt "Error"
       bodyTemplate: "materializeModalError"
+      submitLabel: t9nIt 'ok'
     , @defaults
     
     @open()
@@ -91,6 +94,7 @@ class MaterializeModalClass
       message: t9nIt 'Message'
       title: t9nIt 'Confirm'
       closeLabel: t9nIt 'cancel'
+      submitLabel: t9nIt 'ok'
     , @defaults
 
     @open()
