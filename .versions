@@ -26,7 +26,7 @@ pfafman:materialize-modal@0.3.1
 random@1.0.3
 reactive-var@1.0.5
 retry@1.0.3
-softwarerero:accounts-t9n@0.0.20
+softwarerero:accounts-t9n@1.1.0
 spacebars-compiler@1.0.6
 templating@1.1.1
 test-helpers@1.0.4
