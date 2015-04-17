@@ -5,6 +5,7 @@ console.log("Modal T9n", T9n) if DEBUG
 
 en =
   'Close': 'Close'
+  'close': 'close'
   'OK': 'OK'
   'ok': 'ok'
   'Ok': 'Ok'

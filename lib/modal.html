@@ -5,10 +5,12 @@
     {{#if bottomSheet}}bottom-sheet{{/if}}
     {{#if fullscreen}}full-screen{{/if}} {{class}}">
     <div class="modal-content">
-      <h4 class="modal-title" id="materializeModalLabel">
-        {{#if icon}}<i class="{{icon}}"></i>{{/if}}
-        {{{title}}}
-      </h4>
+      {{#if title}}
+        <h4 class="modal-title" id="materializeModalLabel">
+          {{#if icon}}<i class="{{icon}}"></i>{{/if}}
+          {{{title}}}
+        </h4>
+      {{/if}}
       <p class="modal-body">
         {{#if errorMessage}}
           <div class="alert alert-danger alert-dismissible" role="alert">

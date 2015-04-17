@@ -18,7 +18,7 @@ Package.on_use(function(api, where) {
   ], 'client');
 
   api.use([
-    'softwarerero:accounts-t9n',
+    'softwarerero:accounts-t9n@1.1.0',
   ], ["client", "server"]);
 
   api.add_files([
