@@ -1,5 +1,5 @@
 
-DEBUG = false
+DEBUG = true
 
 t9nIt = (string) ->
   T9n?.get?(string) or string
@@ -36,16 +36,15 @@ class MaterializeModalClass
     @tmpl = Blaze.renderWithData(Template.materializeModal, @options, document.body)
 
 
-  close: ->
-    $('#materializeModal').closeModal
-      complete: =>
-        Blaze.remove(@tmpl)
-    @reset()
+  # close: ->
+  #   $('#materializeModal').closeModal()
 
 
-  destroy: ->
-    @reset()
+  remove: ->
+    console.log("remove") if DEBUG
     Blaze.remove(@tmpl)
+    @reset()
+    
 
 
   modalReady: (tmpl) ->
@@ -224,7 +223,7 @@ Template.materializeModal.onRendered ->
   inDuration = 300
   if @data.fullscreen
     inDuration = 0
-  $('#materializeModal').openModal
+  @$('#materializeModal').openModal
     in_duration: inDuration
     ready: =>
       if @data.fullscreen
@@ -234,7 +233,8 @@ Template.materializeModal.onRendered ->
         , 5
       MaterializeModal.modalReady(@)
     complete: ->
-      MaterializeModal.destroy()
+      console.log("materializeModal: complete") if DEBUG
+      MaterializeModal.remove()
 
 #    Meteor.defer ->
 #        $('#prompt-input')?.focus()
@@ -280,15 +280,24 @@ Template.materializeModal.helpers
 Template.materializeModal.events
   "click #closeButton": (e, tmpl) ->
     e.preventDefault()
+    console.log('closeButton') if DEBUG
     MaterializeModal.doCallback(false, e)
-    MaterializeModal.close()
+    console.log('call closeModal') if DEBUG
+    tmpl.$('#materializeModal').closeModal
+      complete: ->
+        MaterializeModal.remove()
+    
 
 
   "click #submitButton": (e, tmpl) ->
     e.preventDefault()
     console.log('submit e, form', e, tmpl.$('form')) if DEBUG
     MaterializeModal.doCallback(true, e, tmpl.$('form'))
-    MaterializeModal.close()
+    console.log('call closeModal') if DEBUG
+    tmpl.$('#materializeModal').closeModal
+      complete: ->
+        MaterializeModal.remove()
+    
 
 
 Template.materializeModalstatus.helpers
