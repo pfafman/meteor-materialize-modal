@@ -38,9 +38,6 @@ class MaterializeModalClass
 
   close: ->
     $('#materializeModal').closeModal
-      complete: =>
-        Blaze.remove(@tmpl)
-    @reset()
 
 
   modalReady: (tmpl) ->
@@ -228,7 +225,10 @@ Template.materializeModal.onRendered ->
           @$('#materializeModal').css('top', 0)
         , 5
       MaterializeModal.modalReady(@)
-
+    complete: =>
+      Blaze.remove(MaterializeModal.tmpl)
+      MaterializeModal.reset()
+      
 #    Meteor.defer ->
 #        $('#prompt-input')?.focus()
 
