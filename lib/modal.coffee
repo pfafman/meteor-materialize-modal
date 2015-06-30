@@ -1,5 +1,5 @@
 
-DEBUG = true
+DEBUG = false
 
 t9nIt = (string) ->
   T9n?.get?(string) or string
