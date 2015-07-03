@@ -89,7 +89,7 @@ cs =
 T9n?.map?("cs", cs)
 
 fr =
-  "Close": "Près"
+  "Close": "Fermer"
   "Message": "Message"
   "OK": "OK"
   'ok': 'ok'
@@ -97,14 +97,14 @@ fr =
   "submit": "soumettre"
   "Type something here": "Tapez quelque chose ici"
   "cancel": "annuler"
-  "Edit Record": "Modifier un enregistrement"
+  "Edit Record": "Modifier l'enregistrement"
   "Error": "Erreur"
   "Confirm": "Confirmer"
   "Feedback?": "Commentaires?"
   "Error: No template specified!": "Erreur: Aucun modèle spécifié!"
-  "You need to pass a message to materialize modal!": "Vous devez passer un message à concrétiser modale!"
-  "Alert": "Alerte"
-  "Prompt": "Rapide"
+  "You need to pass a message to materialize modal!": "Vous devez fournir un message à materialize modal!"
+  "Alert": "Avertissement"
+  "Prompt": "Demande"
 
 T9n?.map?("fr", fr)
 
