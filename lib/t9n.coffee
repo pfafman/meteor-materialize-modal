@@ -15,7 +15,7 @@ en =
   'Error': 'Error'
   'Confirm': 'Confirm'
   'cancel': 'cancel'
-  'save': 'save'    # Do for others !!!
+  'save': 'save'
   'Feedback?': 'Feedback?'
   'Prompt': 'Prompt'
   'submit': 'submit'
@@ -44,6 +44,7 @@ it =
   "Feedback?": "Risposte?"
   "You need to pass a message to materialize modal!": "È necessario passare un messaggio a materializzarsi modale!"
   "Close": "Vicino"
+  "save": "salvare"
   
 T9n?.map?("it", it)
 
@@ -65,8 +66,10 @@ sk =
   "Prompt": "Okamžitý"
   "You need to pass a message to materialize modal!": "Musíte odovzdať správu zhmotniť modálne!"
   "Loading": "Nakladanie"
+  "save": "ušetriť"
 
 T9n?.map?("sk", sk)
+
 
 cs =
   "Feedback?": "Zpětná vazba?"
@@ -85,8 +88,10 @@ cs =
   "Error: No template specified!": "Chyba: žádná šablona uvedeno!"
   "Close": "Zavřít"
   "You need to pass a message to materialize modal!": "Musíte předat zprávu zhmotnit modální!"
+  "save": "ušetřit"
 
 T9n?.map?("cs", cs)
+
 
 fr =
   "Close": "Fermer"
@@ -105,8 +110,10 @@ fr =
   "You need to pass a message to materialize modal!": "Vous devez fournir un message à materialize modal!"
   "Alert": "Avertissement"
   "Prompt": "Demande"
+  "save": "enregistrer"
 
 T9n?.map?("fr", fr)
+
 
 de =
   "Close": "In der Nähe"
@@ -125,6 +132,7 @@ de =
   "Message": "Nachricht"
   "You need to pass a message to materialize modal!": "Sie müssen eine Nachricht übergeben zu materialisieren modalen!"
   "Prompt": "Prompt"
+  "save": "sparen"
 
 T9n?.map?("de", de)
 
@@ -146,6 +154,7 @@ es =
   "You need to pass a message to materialize modal!": "Tiene que pasar un mensaje a materializarse modal!"
   "Confirm": "Confirmar"
   "Loading": "Cargando"
+  "save": "guardar"
 
 T9n?.map?('es', 'es')
 
