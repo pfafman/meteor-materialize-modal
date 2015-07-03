@@ -15,6 +15,7 @@ en =
   'Error': 'Error'
   'Confirm': 'Confirm'
   'cancel': 'cancel'
+  'save': 'save'    # Do for others !!!
   'Feedback?': 'Feedback?'
   'Prompt': 'Prompt'
   'submit': 'submit'
