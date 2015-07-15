@@ -172,7 +172,7 @@ class MaterializeModalClass
     result
 
 
-  doCallback: (yesNo, event, form) ->
+  doCallback: (yesNo, event, form, onDone) ->
     if yesNo
       switch @options.type
         when 'prompt'
@@ -182,12 +182,15 @@ class MaterializeModalClass
         when 'form'
           if form?
             returnVal = @fromForm(form)
+          else
+            returnVal = null
         else
           returnVal = null
 
     if @options.callback?
       @options.callback(yesNo, returnVal, event)
 
+    onDone()
 
 ###
 
@@ -291,12 +294,14 @@ Template.materializeModal.events
 
   "click #submitButton": (e, tmpl) ->
     e.preventDefault()
-    console.log('submit e, form', e, tmpl.$('form')) if DEBUG
-    MaterializeModal.doCallback(true, e, tmpl.$('form'))
-    console.log('call closeModal') if DEBUG
-    tmpl.$('#materializeModal').closeModal
-      complete: ->
-        MaterializeModal.remove()
+    form = tmpl?.$('form')
+    console.log('submit event:', e, "form:", form) if DEBUG
+    MaterializeModal.doCallback true, e, form, (close=true) ->
+      if close
+        console.log('call closeModal') if DEBUG
+        tmpl.$('#materializeModal').closeModal
+          complete: ->
+            MaterializeModal.remove()
     
 
 
