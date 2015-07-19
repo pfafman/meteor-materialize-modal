@@ -25,6 +25,7 @@ class MaterializeModalClass
     @errorMessage = new ReactiveVar()
     @bodyTemplate = new ReactiveVar()
 
+
   reset: ->
     @options = @defaults
     @callback = null
@@ -32,12 +33,16 @@ class MaterializeModalClass
     
 
   open: ->
+    Blaze.remove(@tmpl) if @tmpl?
     @bodyTemplate.set(@options.bodyTemplate)
     @tmpl = Blaze.renderWithData(Template.materializeModal, @options, document.body)
 
 
-  # close: ->
-  #   $('#materializeModal').closeModal()
+  close: ->
+    console.log "close" if DEBUG
+    $('#materializeModal').closeModal
+      complete: ->
+        MaterializeModal.remove()
 
 
   remove: ->
