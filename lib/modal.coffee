@@ -135,6 +135,7 @@ class MaterializeModalClass
 
 
   form: (@options = {}) ->
+    console.log("form options", @options) if DEBUG
     if not options.bodyTemplate?
       Materialize.toast(t9nIt "Error: No template specified!", 3000, "red")
     else
@@ -223,7 +224,7 @@ MaterializeModal = new MaterializeModalClass()
 
 
 Template.materializeModal.onCreated ->
-  console.log("materializeModal created") if DEBUG
+  console.log("materializeModal created", @data) if DEBUG
 
 
 Template.materializeModal.onRendered ->
@@ -270,8 +271,10 @@ Template.materializeModal.helpers
   isForm: ->
     MaterializeModal.type is 'form'
 
+
   errorMessage: ->
     MaterializeModal.errorMessage.get()
+
 
   icon: ->
     if @icon
@@ -283,6 +286,14 @@ Template.materializeModal.helpers
           'mdi-alert-warning'
         when 'error'
           'mdi-alert-error'
+
+
+  modalFooter: ->
+    @footerTemplate or 'materializeModalFooter'
+
+
+  modalFooterData: ->
+    _.extend({}, @, @footerTemplateData)
 
 
 Template.materializeModal.events
