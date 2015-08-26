@@ -142,8 +142,8 @@ class MaterializeModalClass
       _.defaults @options,
         type: 'form'
         title: t9nIt "Edit Record"
-        submitLabel: '<i class="mdi-content-save left"></i>' + t9nIt('save')
-        closeLabel: '<i class="mdi-content-block left"></i>' + t9nIt('cancel')
+        submitLabel: '<i class="material-icons left">save</i>' + t9nIt('save')
+        closeLabel: '<i class="material-icons left">not_interested</i>' + t9nIt('cancel')
       , @defaults
 
       if options.smallForm
@@ -283,9 +283,9 @@ Template.materializeModal.helpers
       console.log("icon: type", @type) if DEBUG
       switch @type
         when 'alert'
-          'mdi-alert-warning'
+          'warning'
         when 'error'
-          'mdi-alert-error'
+          'error'
 
 
   modalFooter: ->
