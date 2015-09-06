@@ -194,9 +194,15 @@ class MaterializeModalClass
           returnVal = null
 
     if @options.callback?
-      @options.callback(yesNo, returnVal, event)
+      try
+        @options.callback(yesNo, returnVal, event)
+      catch error
+        console.log("MaterializeModal Callback returned Error", error)
+        Materialize.toast("#{error.reason}", 3000, 'toast-error')
+        return false
 
-    #onDone()
+    true
+    
 
 ###
 
@@ -312,11 +318,11 @@ Template.materializeModal.events
     e.preventDefault()
     form = tmpl?.$('form')
     console.log('submit event:', e, "form:", form) if DEBUG
-    MaterializeModal.doCallback(true, e, form)
-    console.log('call closeModal') if DEBUG
-    tmpl.$('#materializeModal').closeModal
-      complete: ->
-        MaterializeModal.remove()
+    if MaterializeModal.doCallback(true, e, form)
+      console.log('call closeModal') if DEBUG
+      tmpl.$('#materializeModal').closeModal
+        complete: ->
+          MaterializeModal.remove()
     
 
 
