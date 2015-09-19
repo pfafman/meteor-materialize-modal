@@ -63,17 +63,12 @@
 
 <template name="materializeModalPrompt">
   <div class="prompt">
-    <div class="row">
-      <div class="col s12">
-        {{message}}
-      </div>
-    </div>
     <div class="col s12">
       <div class="row">
         <div class="input-field col s12">
-          <input id="prompt-input" class="validate" type="text"
+          <input id="prompt-input" class="validate" type="text" placeholder="{{placeholder}}"
             required autofocus />
-          <label for="prompt-input">{{placeholder}}</label>
+          <label for="prompt-input">{{message}}</label>
         </div>
       </div>
     </div>
