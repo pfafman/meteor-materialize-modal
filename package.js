@@ -5,29 +5,29 @@ Package.describe({
   git: "https://github.com/pfafman/meteor-materialize-modal.git"
 });
 
-Package.on_use(function(api, where) {
-  api.versionsFrom("METEOR@1.0.4");
+Package.onUse(function(api, where) {
+  api.versionsFrom("METEOR@1.2");
 
   api.use([
     'underscore',
     'templating',
-    'ui',
+    'blaze',
     'jquery',
-    'coffeescript',
     'reactive-var',
   ], 'client');
 
   api.use([
-    'softwarerero:accounts-t9n@1.1.3',
+    'softwarerero:accounts-t9n@1.1.4',
+    'coffeescript'
   ], ["client", "server"]);
 
-  api.add_files([
+  api.addFiles([
     'lib/modal.css',
     'lib/modal.html',
     'lib/modal.coffee',
   ], 'client');
 
-  api.add_files([
+  api.addFiles([
     'lib/t9n.coffee'
   ], ['client', 'server']);
 
@@ -38,7 +38,7 @@ Package.on_use(function(api, where) {
 });
 
 
-Package.on_test(function(api) {
+Package.onTest(function(api) {
   api.use("pfafman:materialize-modal", 'client');
   api.use(['tinytest', 'test-helpers', 'coffeescript'], 'client');
   api.add_files('modal_tests.coffee', 'client');

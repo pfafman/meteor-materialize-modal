@@ -33,6 +33,7 @@ class MaterializeModalClass
     
 
   open: ->
+    console.log("MaterializeModal open", @) if DEBUG
     Blaze.remove(@tmpl) if @tmpl?
     @bodyTemplate.set(@options.bodyTemplate)
     @tmpl = Blaze.renderWithData(Template.materializeModal, @options, document.body)
@@ -72,7 +73,7 @@ class MaterializeModalClass
 
 
   alert: (@options = {}) ->
-    _.defaults options,
+    _.defaults @options,
       type: 'alert'
       message: t9nIt 'Alert'
       title: t9nIt 'Alert'
@@ -85,7 +86,7 @@ class MaterializeModalClass
 
 
   error: (@options = {}) ->
-    _.defaults options,
+    _.defaults @options,
       type: 'error'
       message: t9nIt 'Error'
       title: t9nIt 'Error'
@@ -136,7 +137,7 @@ class MaterializeModalClass
 
   form: (@options = {}) ->
     console.log("form options", @options) if DEBUG
-    if not options.bodyTemplate?
+    if not @options.bodyTemplate?
       Materialize.toast(t9nIt "Error: No template specified!", 3000, "red")
     else
       _.defaults @options,
@@ -146,9 +147,9 @@ class MaterializeModalClass
         closeLabel: '<i class="material-icons left">not_interested</i>' + t9nIt('cancel')
       , @defaults
 
-      if options.smallForm
-        options.size = 'modal-sm'
-        options.btnSize = 'btn-sm'
+      if @options.smallForm
+        @options.size = 'modal-sm'
+        @options.btnSize = 'btn-sm'
       @open()
 
 
