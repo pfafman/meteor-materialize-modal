@@ -20,36 +20,39 @@ Template.materializeModalContainer.helpers
 #     Template.materializeModal
 ###
 Template.materializeModal.onCreated ->
-  console.log("materializeModal created", @data) if DEBUG
+  console.log("Template.materializeModal.created", @data) if DEBUG
 
 Template.materializeModal.onRendered ->
-  console.log("materializeModal rendered", @data.title)  if DEBUG
+  console.log("Template.materializeModal.rendered", @data.title)  if DEBUG
+  #
+  # Fullscreen modals should appear instantly.
+  # Otherwise, give a 300ms transition.
+  #
   inDuration = 300
   if @data.fullscreen
     inDuration = 0
+  #
+  # Call Materialize's openModal() method to make
+  # the modal content appear.
+  #
+  # Set a callback to handle destroying the materializeModal template
+  # if the user "completes" the modal, for instance by clicking
+  # the background.
+  #
   @$('#materializeModal').openModal
     in_duration: inDuration
     ready: =>
-      if @data.fullscreen
-        Meteor.setTimeout ->
-          console.log("move top for fullscreen") if DEBUG
-          @$('#materializeModal').css
-            top: 0
-            bottom: 0
-        , 5
-      #MaterializeModal.modalReady(@)
+      console.log "materializeModal: ready" if DEBUG
     complete: ->
       console.log("materializeModal: complete") if DEBUG
       MaterializeModal.close()
 
-
 Template.materializeModal.onDestroyed ->
-  console.log("materializeModal destroyed") if DEBUG
-
+  console.log("Template.materializeModal.destroyed") if DEBUG
 
 Template.materializeModal.helpers
   templateData: ->
-    @ if MaterializeModal.bodyTemplate.get()?
+    @data if Template.currentData().bodyTemplate?
 
   isForm: ->
     MaterializeModal.type is 'form'
@@ -73,7 +76,6 @@ Template.materializeModal.helpers
 
   modalFooterData: ->
     _.extend({}, @, @footerTemplateData)
-
 
 Template.materializeModal.events
   "click #closeButton": (e, tmpl) ->

@@ -5,7 +5,6 @@ class @MaterializeModalClass
     # (1) Define class-wide data constructs.
     #
     @errorMessage = new ReactiveVar()
-    @bodyTemplate = new ReactiveVar()
     # templateOptions:  Setting this reactive var will automatically
     #                   cause materializeModalContainer to re-render.
     #                   It starts with a default value of no modal content.
