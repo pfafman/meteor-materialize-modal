@@ -2,7 +2,7 @@
   color: #000;
 }
 .materialize-modal.full-screen {
-  height: 100%;
+  height: 100% !important;
   position: absolute;
   top: 0;
   right: 0px;
@@ -17,30 +17,30 @@
 .materialize-modal .modal-content .modal-title {
   font-size: 2.28rem;
   line-height: 2.508rem;
-  margin: 1.14rem 0 0.912rem 0; 
+  margin: 1.14rem 0 0.912rem 0;
 }
 
 
 
 .materialize-modal .alert {
-  
+
 }
 
 
 
 .materialize-modal .prompt {
-  
+
 }
 
 .materialize-modal .form-group {
-  
+
 }
 
 .materialize-modal .room-for-spin {
-  
+
 }
 
 .materialize-modal #progressMessage {
-        
+
 }
 */
