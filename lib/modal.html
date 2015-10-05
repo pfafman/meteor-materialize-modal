@@ -1,17 +1,26 @@
+<template name="materializeModalContainer">
+  {{#if modalOptions}}
+    {{#with modalOptions}}
+      {{> materializeModal }}
+    {{/with}}
+  {{/if}}
+</template>
 
 <template name="materializeModal">
   <div id="materializeModal" class="materialize-modal modal
-    {{#if fixedFooter}}modal-fixed-footer{{/if}} 
+    {{#if fixedFooter}}modal-fixed-footer{{/if}}
     {{#if bottomSheet}}bottom-sheet{{/if}}
     {{#if fullscreen}}full-screen{{/if}} {{class}}">
     <div class="modal-content">
+
       {{#if title}}
         <h4 class="modal-title" id="materializeModalLabel">
           {{#if icon}}<i class="material-icons">{{icon}}</i>{{/if}}
           {{{title}}}
         </h4>
       {{/if}}
-      <p class="modal-body">
+
+      <div class="modal-body">
         {{#if errorMessage}}
           <div class="alert alert-danger alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert">
@@ -28,11 +37,11 @@
         {{else}}
           {{{message}}}
         {{/if}}
-      </p>
+      </div>
     </div>
 
     {{> Template.dynamic template=modalFooter data=modalFooterData}}
-    
+
   </div>
 </template>
 
@@ -56,7 +65,7 @@
 
 <template name="materializeModalError">
   <div class="alert alert-danger">
-    <h4 id='label'>{{label}}</h4> 
+    <h4 id='label'>{{label}}</h4>
     <strong id ='message'>{{message}}</strong>
   </div>
 </template>
@@ -86,7 +95,7 @@
 
 <template name="materializeModalstatus">
   <div id="statusMessage">
-    <i class="fa fa-spinner fa-spin fa-2x"></i>  
+    <i class="fa fa-spinner fa-spin fa-2x"></i>
     <span class="room-for-spin" id="progressMessage">{{progressMessage}}</span>
   </div>
 </template>
