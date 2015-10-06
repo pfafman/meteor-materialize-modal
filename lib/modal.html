@@ -13,34 +13,31 @@
     {{#if bottomSheet}}bottom-sheet{{/if}}
     {{#if fullscreen}}full-screen{{/if}} {{class}}">
 
-    <div class="modal-content">
-      <!-- Add a title, if one was defined -->
-      {{#if title}}
-        <h4 class="modal-title" id="materializeModalLabel">
-          {{#if icon}}<i class="material-icons">{{icon}}</i>{{/if}}
-          {{{title}}}
-        </h4>
-      {{/if}}
-
-      <!--  Modal body -->
-      <div class="modal-body">
-        {{#if bodyTemplate}}
-          {{#if isForm}}
-            <!--  If this is a form, then we need to embed bodyTemplate into the form template. -->
-            {{> Template.dynamic template=materializeModalForm data=this}}
-          {{else}}
-            <!--  Otherwise, if a bodyTemplate was specified, insert it here. -->
-            {{> Template.dynamic template=bodyTemplate data=this}}
-          {{/if}}
-        {{else}}
-          <!-- If no bodyTemplate, render message instead. -->
-          {{{message}}}
+    {{#materializeModalForm}}
+      <div class="modal-content">
+        <!-- Add a title, if one was defined -->
+        {{#if title}}
+          <h4 class="modal-title" id="materializeModalLabel">
+            {{#if icon}}<i class="material-icons">{{icon}}</i>{{/if}}
+            {{{title}}}
+          </h4>
         {{/if}}
-      </div>
-    </div>
 
-    <!--  Add in footer, if one was defined -->
-    {{> Template.dynamic template=modalFooter data=modalFooterData}}
+        <!--  Modal body -->
+        <div class="modal-body">
+          {{#if bodyTemplate}}
+            <!--  If a bodyTemplate was specified, insert it here. -->
+            {{> Template.dynamic template=bodyTemplate data=this}}
+          {{else}}
+            <!-- If no bodyTemplate, render message instead. -->
+            {{{message}}}
+          {{/if}}
+        </div>
+      </div>
+
+      <!--  Add in footer, if one was defined -->
+      {{> Template.dynamic template=modalFooter data=modalFooterData}}
+    {{/materializeModalForm}}
   </div>
 </template>
 
@@ -85,9 +82,13 @@
 </template>
 
 <template name="materializeModalForm">
-  <form id="modalDialogForm" class="{{formClass}}">
-    {{> Template.dynamic template=bodyTemplate }}
-  </form>
+  {{#if isForm}}
+    <form id="materializeModalForm" class="{{formClass}}">
+      {{> Template.contentBlock}}
+    </form>
+  {{else}}
+    {{> Template.contentBlock}}
+  {{/if}}
 </template>
 
 <template name="materializeModalProgress">

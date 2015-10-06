@@ -1,5 +1,5 @@
 
-@DEBUG = false
+@DEBUG = true
 
 #
 # Global translation methods & helpers.
@@ -56,10 +56,18 @@ Template.materializeModal.onRendered ->
       console.log "materializeModal: ready" if DEBUG
     complete: ->
       console.log "materializeModal: complete" if DEBUG
+      MaterializeModal.doCancelCallback()
       MaterializeModal.close()
 
 Template.materializeModal.onDestroyed ->
   console.log("Template.materializeModal.destroyed") if DEBUG
+
+Template.materializeModalForm.helpers
+  #
+  # isForm: Only true when the modal is a form.
+  #
+  isForm: ->
+    @type in [ 'form', 'prompt' ]
 
 Template.materializeModal.helpers
   #
@@ -68,11 +76,6 @@ Template.materializeModal.helpers
   #
   bodyTemplate: ->
     @bodyTemplate or null
-  #
-  # isForm: Only true when the modal is a form.
-  #
-  isForm: ->
-    @type is 'form'
   #
   # icon: Return a Material icon code for the Modal.
   #
@@ -101,17 +104,15 @@ Template.materializeModal.events
   "click #closeButton": (e, tmpl) ->
     e.preventDefault()
     console.log('closeButton') if DEBUG
-    MaterializeModal.doCallback false, e
-    console.log('call MaterializeModal.close()') if DEBUG
+    MaterializeModal.doCancelCallback()
     MaterializeModal.close()
-
-  "click #submitButton": (e, tmpl) ->
+  "submit form#materializeModalForm, click button#submitButton": (e, tmpl) ->
     e.preventDefault()
-    form = tmpl?.$('form')
+    form = tmpl?.$('form#materializeModalForm')
     console.log('submit event:', e, "form:", form) if DEBUG
-    if MaterializeModal.doCallback true, e, form
-      console.log('call closeModal') if DEBUG
+    if MaterializeModal.doSubmitCallback e, form
       MaterializeModal.close()
+    false # this prevents the page from refreshing on form submission!
 
 
 

@@ -20,7 +20,9 @@ class @MaterializeModalClass
     type: 'message'
     closeLabel: null
     submitLabel: 'ok'
-    inputSelector: "#prompt-input"
+    inputSelector: '#prompt-input'
+    cancelCallback: null
+    successCallback: null
 
   #
   # injectContainer:  This method makes sure there is one copy
@@ -38,11 +40,11 @@ class @MaterializeModalClass
   #                 below.
   #
   open: ( options ) ->
-    console.log("MaterializeModal open", @) if DEBUG
+    console.log "MaterializeModal.open()", @ if DEBUG
     #
     # (1) Make sure there's a modal container.
     #
-    @injectContainer() if !@modalContainer?
+    @injectContainer() unless @modalContainer?
     #
     # (2) Update the this.options ReactiveVar, which will
     #     cause the dynamic Template inside materializeModalContainer
@@ -55,8 +57,7 @@ class @MaterializeModalClass
   #           Do not destroy materializeModalContainer.
   #
   close: ->
-    console.log "close" if DEBUG
-
+    console.log "MaterializeModal.close()" if DEBUG
     @$modal.closeModal
       complete: =>
         @templateOptions.set null
@@ -134,7 +135,7 @@ class @MaterializeModalClass
   loading: (options = {}) ->
     _.defaults options,
       message: t9nIt('Loading') + ' ...'
-      title: t9nIt 'Loading'
+      title: null
       bodyTemplate: 'materializeModalLoading'
       submitLabel: t9nIt 'cancel'
     , @defaults
@@ -185,30 +186,38 @@ class @MaterializeModalClass
     result
 
   #
+  # doCancelCallback:   This method runs the cancelCallback method
+  #                     that was passed by the user, if any.
+  #                     It only gets called if the user closes the
+  #                     modal without submitting or confirming.
   #
-  #
-  doCallback: (yesNo, event, form) ->
+  doCancelCallback: ->
     options = @templateOptions.get()
-    if yesNo
-      switch options.type
-        when 'prompt'
-          returnVal = $(options.inputSelector).val()
-        when 'select'
-          returnVal = $('select option:selected')
-        when 'form'
-          if form?
-            returnVal = @fromForm( form )
-          else
-            returnVal = null
+    console.log "materializeModal: doCancelCallback" if DEBUG
+    options.cancelCallback() if options.cancelCallback?
+    true
+
+  doSubmitCallback: (event, form) ->
+    options = @templateOptions.get()
+    switch options.type
+      when 'prompt'
+        returnVal = $(options.inputSelector).val()
+      #when 'select'
+      #  returnVal = $('select option:selected')
+      when 'form'
+        if form?
+          returnVal = @fromForm form
         else
           returnVal = null
+      else
+        returnVal = null
 
-    if options.callback?
+    if options.submitCallback?
       try
-        options.callback(yesNo, returnVal, event)
+        options.submitCallback returnVal, event
       catch error
-        console.log("MaterializeModal Callback returned Error", error)
-        Materialize.toast("#{error.reason}", 3000, 'toast-error')
+        console.error "MaterializeModal Callback returned Error", error
+        Materialize.toast error.reason, 3000, 'toast-error'
         return false
     true
 
