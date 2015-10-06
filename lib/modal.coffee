@@ -1,5 +1,5 @@
 
-@DEBUG = true
+@DEBUG = false
 
 #
 # Global translation methods & helpers.
@@ -62,10 +62,12 @@ Template.materializeModal.onDestroyed ->
   console.log("Template.materializeModal.destroyed") if DEBUG
 
 Template.materializeModal.helpers
+  #
+  # bodyTemplate: The name of the template that should be rendered
+  #               in the modal's body area.
+  #
   bodyTemplate: ->
     @bodyTemplate or null
-  bodyTemplateData: ->
-    @bodyTemplateData
   #
   # isForm: Only true when the modal is a form.
   #

@@ -6,13 +6,17 @@ class @MaterializeModalClass
     #                   cause materializeModalContainer to re-render.
     #                   It starts with a default value of no modal content.
     @templateOptions = new ReactiveVar()
+    #
+    # $modal:           This is a jQuery handle on the #materializeModal
+    #                   DOM node itself.  This is the object we call
+    #                   .openModal() and .closeModal() on.
+    #
     @$modal = null
 
 
   defaults:
     title: 'Message'
     message: ''
-    body_template_data: {}
     type: 'message'
     closeLabel: null
     submitLabel: 'ok'
@@ -52,6 +56,7 @@ class @MaterializeModalClass
   #
   close: ->
     console.log "close" if DEBUG
+
     @$modal.closeModal
       complete: =>
         @templateOptions.set null
@@ -138,8 +143,8 @@ class @MaterializeModalClass
 
   form: (options = {}) ->
     console.log "form options", options if DEBUG
-    if not options.formTemplate?
-      Materialize.toast(t9nIt "Error: No formTemplate specified!", 3000, "red")
+    if not options.bodyTemplate?
+      Materialize.toast t9nIt "Error: No bodyTemplate specified!", 3000, "red"
     else
       _.defaults options,
         type: 'form'
@@ -192,7 +197,7 @@ class @MaterializeModalClass
           returnVal = $('select option:selected')
         when 'form'
           if form?
-            returnVal = @fromForm(form)
+            returnVal = @fromForm( form )
           else
             returnVal = null
         else

@@ -1,5 +1,6 @@
 <template name="materializeModalContainer">
   {{#if modalOptions}}
+    <!--  if modalOptions is null, do not render anything! -->
     {{#with modalOptions}}
       {{> materializeModal }}
     {{/with}}
@@ -40,18 +41,17 @@
 
     <!--  Add in footer, if one was defined -->
     {{> Template.dynamic template=modalFooter data=modalFooterData}}
-
   </div>
 </template>
 
 
 <template name="materializeModalFooter">
   <div class="modal-footer">
-    {{#if closeLabel}}
-      <button id="closeButton" class="waves-effect btn-flat {{btnSize}}">{{{closeLabel}}}</button>
-    {{/if}}
     {{#if submitLabel}}
       <button id="submitButton" type="submit" class="waves-effect btn-flat {{btnSize}}">{{{submitLabel}}}</button>
+    {{/if}}
+    {{#if closeLabel}}
+      <button id="closeButton" class="waves-effect btn-flat {{btnSize}}">{{{closeLabel}}}</button>
     {{/if}}
   </div>
 </template>
@@ -76,8 +76,7 @@
     <div class="col s12">
       <div class="row">
         <div class="input-field col s12">
-          <input id="prompt-input" class="validate" type="text" placeholder="{{placeholder}}"
-            required autofocus />
+          <input id="prompt-input" class="validate" type="text" placeholder="{{placeholder}}" required autofocus />
           <label for="prompt-input">{{message}}</label>
         </div>
       </div>
