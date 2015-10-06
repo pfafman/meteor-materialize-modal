@@ -50,7 +50,9 @@
     {{#if closeLabel}}
       <button id="closeButton" class="waves-effect btn-flat {{btnSize}}">{{{closeLabel}}}</button>
     {{/if}}
-    <button id="submitButton" type="submit" class="waves-effect btn-flat {{btnSize}}">{{{submitLabel}}}</button>
+    {{#if submitLabel}}
+      <button id="submitButton" type="submit" class="waves-effect btn-flat {{btnSize}}">{{{submitLabel}}}</button>
+    {{/if}}
   </div>
 </template>
 
