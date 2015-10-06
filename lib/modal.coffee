@@ -32,36 +32,48 @@ Template.materializeModal.onCreated ->
 Template.materializeModal.onRendered ->
   console.log("Template.materializeModal.rendered", @data.title)  if DEBUG
   #
-  # Fullscreen modals should appear instantly.
-  # Otherwise, give a 300ms transition.
+  # (1) Update the jQuery handle of the modal instance with the latest
+  #     modal DOM element.
+  #
+  MaterializeModal.$modal = $ @find '#materializeModal'
+  #
+  # (2) Compute modal animation duration.
+  #     Fullscreen modals should appear instantly.
+  #     Otherwise, 300ms transition.
   #
   if @data.fullscreen then inDuration = 0 else 300
   #
-  # Call Materialize's openModal() method to make
-  # the modal content appear.
+  # (3) Call Materialize's openModal() method to make
+  #     the modal content appear.
   #
   # Set a callback to handle destroying the materializeModal template
   # if the user "completes" the modal, for instance by clicking
   # the background.
   #
-  @$('#materializeModal').openModal
+  MaterializeModal.$modal.openModal
     in_duration: inDuration
-    ready: =>
+    ready: ->
       console.log "materializeModal: ready" if DEBUG
     complete: ->
-      console.log("materializeModal: complete") if DEBUG
+      console.log "materializeModal: complete" if DEBUG
       MaterializeModal.close()
 
 Template.materializeModal.onDestroyed ->
   console.log("Template.materializeModal.destroyed") if DEBUG
 
 Template.materializeModal.helpers
-  templateData: ->
-    @data if Template.currentData().bodyTemplate?
-
+  bodyTemplate: ->
+    @bodyTemplate or null
+  bodyTemplateData: ->
+    @bodyTemplateData
+  #
+  # isForm: Only true when the modal is a form.
+  #
   isForm: ->
-    MaterializeModal.type is 'form'
-
+    @type is 'form'
+  #
+  # icon: Return a Material icon code for the Modal.
+  #
   icon: ->
     if @icon
       @icon
@@ -72,12 +84,16 @@ Template.materializeModal.helpers
           'warning'
         when 'error'
           'error'
-
+  #
+  # modalFooter:
+  #
   modalFooter: ->
     @footerTemplate or 'materializeModalFooter'
-
+  #
+  # modalFooterData:
+  #
   modalFooterData: ->
-    _.extend({}, @, @footerTemplateData)
+    _.extend {}, @, @footerTemplateData
 
 Template.materializeModal.events
   "click #closeButton": (e, tmpl) ->
@@ -97,6 +113,6 @@ Template.materializeModal.events
 
 
 
-Template.materializeModalstatus.helpers
+Template.materializeModalStatus.helpers
   progressMessage: ->
     #....

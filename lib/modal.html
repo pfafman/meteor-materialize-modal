@@ -13,7 +13,7 @@
     {{#if fullscreen}}full-screen{{/if}} {{class}}">
 
     <div class="modal-content">
-
+      <!-- Add a title, if one was defined -->
       {{#if title}}
         <h4 class="modal-title" id="materializeModalLabel">
           {{#if icon}}<i class="material-icons">{{icon}}</i>{{/if}}
@@ -21,19 +21,24 @@
         </h4>
       {{/if}}
 
+      <!--  Modal body -->
       <div class="modal-body">
-        {{#if template}}
-          <form id="modalDialogForm" class="{{formClass}}">
-            {{> Template.dynamic template=template data=templateData}}
-          </form>
+        {{#if bodyTemplate}}
+          {{#if isForm}}
+            <!--  If this is a form, then we need to embed bodyTemplate into the form template. -->
+            {{> Template.dynamic template=materializeModalForm data=this}}
+          {{else}}
+            <!--  Otherwise, if a bodyTemplate was specified, insert it here. -->
+            {{> Template.dynamic template=bodyTemplate data=this}}
+          {{/if}}
         {{else}}
+          <!-- If no bodyTemplate, render message instead. -->
           {{{message}}}
         {{/if}}
       </div>
-
     </div>
 
-    <!--  Add in Footer -->
+    <!--  Add in footer, if one was defined -->
     {{> Template.dynamic template=modalFooter data=modalFooterData}}
 
   </div>
@@ -78,6 +83,12 @@
   </div>
 </template>
 
+<template name="materializeModalForm">
+  <form id="modalDialogForm" class="{{formClass}}">
+    {{> Template.dynamic template=bodyTemplate }}
+  </form>
+</template>
+
 <template name="materializeModalProgress">
   <div id='progressBar' class="progress progress-striped active">
     <div id="progressBarDisplay" class="bar" style="width: 0%;"></div>
@@ -87,7 +98,7 @@
   </div>
 </template>
 
-<template name="materializeModalstatus">
+<template name="materializeModalStatus">
   <div id="statusMessage">
     <i class="fa fa-spinner fa-spin fa-2x"></i>
     <span class="room-for-spin" id="progressMessage">{{progressMessage}}</span>

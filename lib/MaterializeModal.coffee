@@ -6,6 +6,7 @@ class @MaterializeModalClass
     #                   cause materializeModalContainer to re-render.
     #                   It starts with a default value of no modal content.
     @templateOptions = new ReactiveVar()
+    @$modal = null
 
 
   defaults:
@@ -17,12 +18,6 @@ class @MaterializeModalClass
     submitLabel: 'ok'
     inputSelector: "#prompt-input"
 
-  ###
-  reset: ->
-    @options = @defaults
-    @callback = null
-  ###
-
   #
   # injectContainer:  This method makes sure there is one copy
   #                   of materializeModalContainer in the body
@@ -30,8 +25,7 @@ class @MaterializeModalClass
   #                   Notice we do not create duplicates.
   #
   injectContainer: ->
-    if !@modalContainer?
-      @modalContainer = Blaze.renderWithData( Template.materializeModalContainer, @templateOptions, document.body )
+    @modalContainer = Blaze.renderWithData Template.materializeModalContainer, @templateOptions, document.body if !@modalContainer?
 
   #
   # open(options):  Display a modal with the options specified by
@@ -58,7 +52,7 @@ class @MaterializeModalClass
   #
   close: ->
     console.log "close" if DEBUG
-    $('#materializeModal').closeModal
+    @$modal.closeModal
       complete: =>
         @templateOptions.set null
 
@@ -143,9 +137,9 @@ class @MaterializeModalClass
 
 
   form: (options = {}) ->
-    console.log("form options", options) if DEBUG
-    if not options.bodyTemplate?
-      Materialize.toast(t9nIt "Error: No template specified!", 3000, "red")
+    console.log "form options", options if DEBUG
+    if not options.formTemplate?
+      Materialize.toast(t9nIt "Error: No formTemplate specified!", 3000, "red")
     else
       _.defaults options,
         type: 'form'
