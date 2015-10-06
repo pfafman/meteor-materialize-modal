@@ -1,12 +1,19 @@
 
 @DEBUG = true
 
+#
+# Global translation methods & helpers.
+#
 @t9nIt = (string) ->
   T9n?.get?(string) or string
 
 Template.registerHelper 'mmT9nit', (string) ->
   t9nIt(string)
 
+#
+# Create instance of MaterializeModal to handle event and
+# modal construction logic.
+#
 MaterializeModal = new MaterializeModalClass()
 
 ###
@@ -28,9 +35,7 @@ Template.materializeModal.onRendered ->
   # Fullscreen modals should appear instantly.
   # Otherwise, give a 300ms transition.
   #
-  inDuration = 300
-  if @data.fullscreen
-    inDuration = 0
+  if @data.fullscreen then inDuration = 0 else 300
   #
   # Call Materialize's openModal() method to make
   # the modal content appear.
@@ -56,9 +61,6 @@ Template.materializeModal.helpers
 
   isForm: ->
     MaterializeModal.type is 'form'
-
-  errorMessage: ->
-    MaterializeModal.errorMessage.get()
 
   icon: ->
     if @icon
@@ -89,7 +91,7 @@ Template.materializeModal.events
     e.preventDefault()
     form = tmpl?.$('form')
     console.log('submit event:', e, "form:", form) if DEBUG
-    if MaterializeModal.doCallback(true, e, form)
+    if MaterializeModal.doCallback true, e, form
       console.log('call closeModal') if DEBUG
       MaterializeModal.close()
 
