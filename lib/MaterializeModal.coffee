@@ -61,6 +61,7 @@ class @MaterializeModalClass
   #
   close: (submit=false, context=null) ->
     console.log "MaterializeModal.close()" if DEBUG
+    return unless @templateOptions.get()? # if there are no options, there is no modal -- there is nothing to close!
     #
     # If the user willingly submitted the modal,
     # run doSubmitCallback with context.
