@@ -59,7 +59,7 @@ class @MaterializeModalClass
   #                           - context is the data that might be relevant to
   #                             the submitCallback, such as the submitted form.
   #
-  close: (submit, context=null) ->
+  close: (submit=false, context=null) ->
     console.log "MaterializeModal.close()" if DEBUG
     #
     # If the user willingly submitted the modal,
@@ -82,6 +82,15 @@ class @MaterializeModalClass
   # MaterializeModal common modal types:
   #
   #
+  display: (options = {}) ->
+    _.defaults options,
+      message: null
+      title: null
+      submitLabel: null
+      cancelLabel: t9nIt 'close'
+    , @defaults
+    @open options
+
   message: (options = {}) ->
     _.defaults options,
       message: t9nIt 'You need to pass a message to materialize modal!'
@@ -176,7 +185,7 @@ class @MaterializeModalClass
   fromForm: (form) ->
     console.log("fromForm", form) if DEBUG
     result = {}
-    for key in form?.serializeArray() # This Works do not change!!!
+    for key in form?.serializeArray() # This will require form inputs have a name attribute
       @addValueToObjFromDotString(result, key.name, key.value)
     # Override the result with the boolean values of checkboxes, if any
     for check in form?.find "input:checkbox"
