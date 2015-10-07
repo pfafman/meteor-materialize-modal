@@ -146,12 +146,25 @@ class @MaterializeModalClass
 
   loading: (options = {}) ->
     _.defaults options,
-      message: t9nIt('Loading') + ' ...'
+      message: t9nIt 'Loading'
       title: null
       bodyTemplate: 'materializeModalLoading'
       submitLabel: t9nIt 'cancel'
     , @defaults
     @open options
+
+  progress: (options = {}) ->
+    if not options.progress?
+      Materialize.toast t9nIt "Error: No progress value specified!", 3000, "red"
+    else
+      options.progress = parseInt(100 * options.progress).toString() + "%" # prettify progress value!
+      _.defaults options,
+        message: null
+        title: null
+        bodyTemplate: 'materializeModalProgress'
+        submitLabel: t9nIt 'cancel'
+      , @defaults
+      @open options
 
   form: (options = {}) ->
     console.log "form options", options if DEBUG
@@ -183,10 +196,17 @@ class @MaterializeModalClass
     if lastPart?
       tmp[lastPart] = value
 
+  #
+  # fromForm: Given the jQuery handle to a form element,
+  #           parse the inputs to create a dictionary
+  #           representing the current value of each input.
+  #           Note that only form inputs with a unique name
+  #           attribute will be parsed.
+  #
   fromForm: (form) ->
     console.log("fromForm", form) if DEBUG
     result = {}
-    for key in form?.serializeArray() # This will require form inputs have a name attribute
+    for key in form?.serializeArray()
       @addValueToObjFromDotString(result, key.name, key.value)
     # Override the result with the boolean values of checkboxes, if any
     for check in form?.find "input:checkbox"
@@ -196,10 +216,10 @@ class @MaterializeModalClass
     result
 
   #
-  # doCancelCallback:   This method runs the cancelCallback method
-  #                     that was passed by the user, if any.
-  #                     It only gets called if the user closes the
+  # doCancelCallback:   This only gets called if the user closes the
   #                     modal without submitting or confirming.
+  #                     It will return submit: false to the callback, if there
+  #                     is one.
   #
   doCancelCallback: ->
     options = @templateOptions.get()
@@ -213,8 +233,11 @@ class @MaterializeModalClass
       options.callback error, null
     true
 
-  # doSubmitCallback:
-  #
+  # doSubmitCallback:   This only gets called if the user sapiently submits
+  #                     the modal -- clicking submit, hitting enter, etc.
+  #                     It will parse any prompt or form data, if applicable.
+  #                     It will return submit: true to the callback, if there
+  #                     is one.
   #
   doSubmitCallback: (context) ->
     options = @templateOptions.get()
@@ -225,8 +248,6 @@ class @MaterializeModalClass
       switch options.type
         when 'prompt'
           response.value = $(options.inputSelector).val()
-        #when 'select'
-        #  returnVal = $('select option:selected')
         when 'form'
           if context.form?
             response.value = @fromForm context.form

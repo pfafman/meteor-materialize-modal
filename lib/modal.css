@@ -13,6 +13,15 @@
   padding: 0.5em;
 }
 
+#materialModalLoading {
+  margin-bottom: 0;
+}
+#loadingMessage {
+  font-size: 26px;
+  font-weight: 100;
+  margin-bottom: 20px;
+}
+
 /*
 .materialize-modal .modal-content .modal-title {
   font-size: 2.28rem;

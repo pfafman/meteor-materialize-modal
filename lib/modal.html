@@ -92,11 +92,11 @@
 </template>
 
 <template name="materializeModalProgress">
-  <div id='progressBar' class="progress progress-striped active">
-    <div id="progressBarDisplay" class="bar" style="width: 0%;"></div>
+  <div class="progress">
+    <div class="determinate" style="width: {{progress}};"></div>
   </div>
   <div id="progressMessage">
-    {{message}}
+    {{progress}} <span class="grey-text text-darken-1">{{message}}</span>
   </div>
 </template>
 
@@ -120,22 +120,48 @@
 </template>
 
 <template name="materializeModalLoading">
-  <div class='row'>
-    <div class='col s4 center-align'>
-      <div class="preloader-wrapper big active">
-        <div class="spinner-layer spinner-blue-only">
-          <div class="circle-clipper left">
-            <div class="circle"></div>
-          </div><div class="gap-patch">
-            <div class="circle"></div>
-          </div><div class="circle-clipper right">
-            <div class="circle"></div>
-          </div>
+  <div id="materialModalLoading" class='row center'>
+    <div id='loadingMessage'>{{message}}</div>
+    <div class="preloader-wrapper big active">
+      <div class="spinner-layer spinner-blue">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
         </div>
       </div>
-    </div>
-    <div class='col s8'>
-      <strong id='loadingMessage'>{{message}}</strong>
+
+      <div class="spinner-layer spinner-red">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+
+      <div class="spinner-layer spinner-yellow">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+
+      <div class="spinner-layer spinner-green">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
