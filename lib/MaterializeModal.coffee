@@ -87,7 +87,7 @@ class @MaterializeModalClass
       message: null
       title: null
       submitLabel: null
-      cancelLabel: t9nIt 'close'
+      closeLabel: t9nIt 'cancel'
     , @defaults
     @open options
 
