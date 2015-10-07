@@ -21,8 +21,7 @@ class @MaterializeModalClass
     closeLabel: null
     submitLabel: 'ok'
     inputSelector: '#prompt-input'
-    cancelCallback: null
-    successCallback: null
+    callback: null
 
   #
   # injectContainer:  This method makes sure there is one copy
@@ -53,23 +52,30 @@ class @MaterializeModalClass
     @templateOptions.set options
 
   #
-  # close:    Close the modal.
-  #           Do not destroy materializeModalContainer.
+  # close( submit, context ): Close the modal.
+  #                           Do not destroy materializeModalContainer.
+  #                           - submit is a bool that determines whether
+  #                             doSubmitCallback or doCancelCallback is called.
+  #                           - context is the data that might be relevant to
+  #                             the submitCallback, such as the submitted form.
   #
-  close: ->
+  close: (submit, context=null) ->
     console.log "MaterializeModal.close()" if DEBUG
-    @$modal.closeModal
-      complete: =>
-        @templateOptions.set null
-
-  #
-  # remove:   Remove the materializeModalContainer and all modal
-  #           content.
-  #
-  remove: ->
-    console.log("remove") if DEBUG
-    Blaze.remove(@tmpl)
-    @reset()
+    #
+    # If the user willingly submitted the modal,
+    # run doSubmitCallback with context.
+    #
+    if submit
+      cbSuccess = @doSubmitCallback context
+    else
+      cbSuccess = @doCancelCallback()
+    #
+    # If the callback had no errors, close the modal.
+    #
+    if cbSuccess
+      @$modal.closeModal
+        complete: =>
+          @templateOptions.set null
 
 
   #
@@ -95,7 +101,6 @@ class @MaterializeModalClass
       @defaults
     @open options
 
-
   error: (options = {}) ->
     _.defaults options,
       type: 'error'
@@ -107,7 +112,6 @@ class @MaterializeModalClass
     , @defaults
     @open options
 
-
   confirm: (options = {}) ->
     _.defaults options,
       type: 'confirm'
@@ -117,7 +121,6 @@ class @MaterializeModalClass
       submitLabel: t9nIt 'ok'
     , @defaults
     @open options
-
 
   prompt: (options = {}) ->
     _.defaults options,
@@ -131,7 +134,6 @@ class @MaterializeModalClass
     , @defaults
     @open options
 
-
   loading: (options = {}) ->
     _.defaults options,
       message: t9nIt('Loading') + ' ...'
@@ -140,7 +142,6 @@ class @MaterializeModalClass
       submitLabel: t9nIt 'cancel'
     , @defaults
     @open options
-
 
   form: (options = {}) ->
     console.log "form options", options if DEBUG
@@ -172,7 +173,6 @@ class @MaterializeModalClass
     if lastPart?
       tmp[lastPart] = value
 
-
   fromForm: (form) ->
     console.log("fromForm", form) if DEBUG
     result = {}
@@ -193,32 +193,45 @@ class @MaterializeModalClass
   #
   doCancelCallback: ->
     options = @templateOptions.get()
-    console.log "materializeModal: doCancelCallback" if DEBUG
-    options.cancelCallback() if options.cancelCallback?
+    return true unless options.callback?
+    try
+      console.log "materializeModal: doCancelCallback" if DEBUG
+      response =
+        submit: false
+      options.callback null, response
+    catch error
+      options.callback error, null
     true
 
-  doSubmitCallback: (event, form) ->
+  # doSubmitCallback:
+  #
+  #
+  doSubmitCallback: (context) ->
     options = @templateOptions.get()
-    switch options.type
-      when 'prompt'
-        returnVal = $(options.inputSelector).val()
-      #when 'select'
-      #  returnVal = $('select option:selected')
-      when 'form'
-        if form?
-          returnVal = @fromForm form
+    return true unless options.callback?
+    try
+      response =
+        submit: true
+      switch options.type
+        when 'prompt'
+          response.value = $(options.inputSelector).val()
+        #when 'select'
+        #  returnVal = $('select option:selected')
+        when 'form'
+          if context.form?
+            response.value = @fromForm context.form
+          else
+            response.value = null
         else
-          returnVal = null
-      else
-        returnVal = null
-
-    if options.submitCallback?
+          response.value = null
       try
-        options.submitCallback returnVal, event
+        options.callback null, response
       catch error
         console.error "MaterializeModal Callback returned Error", error
         Materialize.toast error.reason, 3000, 'toast-error'
         return false
+    catch error
+      options.callback error, null
     true
 
 

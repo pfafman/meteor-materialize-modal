@@ -56,8 +56,7 @@ Template.materializeModal.onRendered ->
       console.log "materializeModal: ready" if DEBUG
     complete: ->
       console.log "materializeModal: complete" if DEBUG
-      MaterializeModal.doCancelCallback()
-      MaterializeModal.close()
+      MaterializeModal.close false
 
 Template.materializeModal.onDestroyed ->
   console.log("Template.materializeModal.destroyed") if DEBUG
@@ -104,14 +103,14 @@ Template.materializeModal.events
   "click #closeButton": (e, tmpl) ->
     e.preventDefault()
     console.log('closeButton') if DEBUG
-    MaterializeModal.doCancelCallback()
-    MaterializeModal.close()
+    MaterializeModal.close false
   "submit form#materializeModalForm, click button#submitButton": (e, tmpl) ->
     e.preventDefault()
     form = tmpl?.$('form#materializeModalForm')
     console.log('submit event:', e, "form:", form) if DEBUG
-    if MaterializeModal.doSubmitCallback e, form
-      MaterializeModal.close()
+    MaterializeModal.close true,
+      event: e
+      form: form
     false # this prevents the page from refreshing on form submission!
 
 
