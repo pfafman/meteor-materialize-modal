@@ -162,7 +162,7 @@ class @MaterializeModalClass
         message: null
         title: null
         bodyTemplate: 'materializeModalProgress'
-        submitLabel: t9nIt 'cancel'
+        submitLabel: t9nIt 'close'
       , @defaults
       @open options
 
