@@ -1,48 +1,55 @@
+<template name="materializeModalContainer">
+  {{#if modalOptions}}
+    <!--  if modalOptions is null, do not render anything! -->
+    {{#with modalOptions}}
+      {{> materializeModal }}
+    {{/with}}
+  {{/if}}
+</template>
 
 <template name="materializeModal">
   <div id="materializeModal" class="materialize-modal modal
-    {{#if fixedFooter}}modal-fixed-footer{{/if}} 
+    {{#if fixedFooter}}modal-fixed-footer{{/if}}
     {{#if bottomSheet}}bottom-sheet{{/if}}
     {{#if fullscreen}}full-screen{{/if}} {{class}}">
-    <div class="modal-content">
-      {{#if title}}
-        <h4 class="modal-title" id="materializeModalLabel">
-          {{#if icon}}<i class="material-icons">{{icon}}</i>{{/if}}
-          {{{title}}}
-        </h4>
-      {{/if}}
-      <p class="modal-body">
-        {{#if errorMessage}}
-          <div class="alert alert-danger alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert">
-              <span aria-hidden="true">&times;</span>
-              <span class="sr-only">{{mmT9nit 'Close'}}</span>
-            </button>
-            {{errorMessage}}
-          </div>
-        {{/if}}
-        {{#if template}}
-          <form id="modalDialogForm" class="{{formClass}}">
-            {{> Template.dynamic template=template data=templateData}}
-          </form>
-        {{else}}
-          {{{message}}}
-        {{/if}}
-      </p>
-    </div>
 
-    {{> Template.dynamic template=modalFooter data=modalFooterData}}
-    
+    {{#materializeModalForm}}
+      <div class="modal-content">
+        <!-- Add a title, if one was defined -->
+        {{#if title}}
+          <h4 class="modal-title" id="materializeModalLabel">
+            {{#if icon}}<i class="material-icons">{{icon}}</i>{{/if}}
+            {{{title}}}
+          </h4>
+        {{/if}}
+
+        <!--  Modal body -->
+        <div class="modal-body">
+          {{#if bodyTemplate}}
+            <!--  If a bodyTemplate was specified, insert it here. -->
+            {{> Template.dynamic template=bodyTemplate data=this}}
+          {{else}}
+            <!-- If no bodyTemplate, render message instead. -->
+            {{{message}}}
+          {{/if}}
+        </div>
+      </div>
+
+      <!--  Add in footer, if one was defined -->
+      {{> Template.dynamic template=modalFooter data=modalFooterData}}
+    {{/materializeModalForm}}
   </div>
 </template>
 
 
 <template name="materializeModalFooter">
   <div class="modal-footer">
+    {{#if submitLabel}}
+      <button id="submitButton" type="submit" class="waves-effect btn-flat {{btnSize}}">{{{submitLabel}}}</button>
+    {{/if}}
     {{#if closeLabel}}
       <button id="closeButton" class="waves-effect btn-flat {{btnSize}}">{{{closeLabel}}}</button>
     {{/if}}
-    <button id="submitButton" type="submit" class="waves-effect btn-flat {{btnSize}}">{{{submitLabel}}}</button>
   </div>
 </template>
 
@@ -56,7 +63,7 @@
 
 <template name="materializeModalError">
   <div class="alert alert-danger">
-    <h4 id='label'>{{label}}</h4> 
+    <h4 id='label'>{{label}}</h4>
     <strong id ='message'>{{message}}</strong>
   </div>
 </template>
@@ -66,8 +73,7 @@
     <div class="col s12">
       <div class="row">
         <div class="input-field col s12">
-          <input id="prompt-input" class="validate" type="text" placeholder="{{placeholder}}"
-            required autofocus />
+          <input id="prompt-input" class="validate" type="text" placeholder="{{placeholder}}" required autofocus />
           <label for="prompt-input">{{message}}</label>
         </div>
       </div>
@@ -75,18 +81,28 @@
   </div>
 </template>
 
+<template name="materializeModalForm">
+  {{#if isForm}}
+    <form id="materializeModalForm" class="{{formClass}}">
+      {{> Template.contentBlock}}
+    </form>
+  {{else}}
+    {{> Template.contentBlock}}
+  {{/if}}
+</template>
+
 <template name="materializeModalProgress">
-  <div id='progressBar' class="progress progress-striped active">
-    <div id="progressBarDisplay" class="bar" style="width: 0%;"></div>
+  <div class="progress">
+    <div class="determinate" style="width: {{progress}};"></div>
   </div>
   <div id="progressMessage">
-    {{message}}
+    {{progress}} <span class="grey-text text-darken-1">{{message}}</span>
   </div>
 </template>
 
-<template name="materializeModalstatus">
+<template name="materializeModalStatus">
   <div id="statusMessage">
-    <i class="fa fa-spinner fa-spin fa-2x"></i>  
+    <i class="fa fa-spinner fa-spin fa-2x"></i>
     <span class="room-for-spin" id="progressMessage">{{progressMessage}}</span>
   </div>
 </template>
@@ -104,22 +120,48 @@
 </template>
 
 <template name="materializeModalLoading">
-  <div class='row'>
-    <div class='col s4 center-align'>
-      <div class="preloader-wrapper big active">
-        <div class="spinner-layer spinner-blue-only">
-          <div class="circle-clipper left">
-            <div class="circle"></div>
-          </div><div class="gap-patch">
-            <div class="circle"></div>
-          </div><div class="circle-clipper right">
-            <div class="circle"></div>
-          </div>
+  <div id="materialModalLoading" class='row center'>
+    <div id='loadingMessage'>{{message}}</div>
+    <div class="preloader-wrapper big active">
+      <div class="spinner-layer spinner-blue">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
         </div>
       </div>
-    </div>
-    <div class='col s8'>
-      <strong id='loadingMessage'>{{message}}</strong>
+
+      <div class="spinner-layer spinner-red">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+
+      <div class="spinner-layer spinner-yellow">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+
+      <div class="spinner-layer spinner-green">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
     </div>
   </div>
 </template>

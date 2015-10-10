@@ -2,9 +2,9 @@
   color: #000;
 }
 .materialize-modal.full-screen {
-  height: 100%;
-  position: absolute;
-  top: 0;
+  height: 100% !important;
+  position: fixed;
+  top: 0 !important;
   right: 0px;
   border-radius: 0;
   max-height: 100%;
@@ -13,34 +13,43 @@
   padding: 0.5em;
 }
 
+#materialModalLoading {
+  margin-bottom: 0;
+}
+#loadingMessage {
+  font-size: 26px;
+  font-weight: 100;
+  margin-bottom: 20px;
+}
+
 /*
 .materialize-modal .modal-content .modal-title {
   font-size: 2.28rem;
   line-height: 2.508rem;
-  margin: 1.14rem 0 0.912rem 0; 
+  margin: 1.14rem 0 0.912rem 0;
 }
 
 
 
 .materialize-modal .alert {
-  
+
 }
 
 
 
 .materialize-modal .prompt {
-  
+
 }
 
 .materialize-modal .form-group {
-  
+
 }
 
 .materialize-modal .room-for-spin {
-  
+
 }
 
 .materialize-modal #progressMessage {
-        
+
 }
 */
