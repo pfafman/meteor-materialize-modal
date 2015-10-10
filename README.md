@@ -1,6 +1,10 @@
 Meteor-Materialize-Modal
 ========================
 
+
+#### Depreciated...  use the new version [meteorstuff:materialize-modal](https://atmospherejs.com/meteorstuff/materialize-modal)
+
+
 A pattern to display application modal dialogs via [Materialize](http://materializecss.com), written in coffeescript.
 
 ### [Demo Site](http://materializemodal.meteor.com)
