@@ -17,7 +17,7 @@ Package.onUse(function(api, where) {
   ], 'client');
 
   api.use([
-    'softwarerero:accounts-t9n',
+    'softwarerero:accounts-t9n@1.1.4',
     'coffeescript'
   ], ["client", "server"]);
 
@@ -42,5 +42,5 @@ Package.onUse(function(api, where) {
 Package.onTest(function(api) {
   api.use("pfafman:materialize-modal", 'client');
   api.use(['tinytest', 'test-helpers', 'coffeescript'], 'client');
-  api.add_files('modal_tests.coffee', 'client');
+  api.add_files('tests/modal_tests.coffee', 'client');
 });
