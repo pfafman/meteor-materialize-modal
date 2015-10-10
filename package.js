@@ -24,7 +24,8 @@ Package.onUse(function(api, where) {
   api.addFiles([
     'lib/modal.css',
     'lib/modal.html',
-    'lib/modal.coffee',
+    'lib/MaterializeModal.coffee',
+    'lib/modal.coffee'
   ], 'client');
 
   api.addFiles([

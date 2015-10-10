@@ -1,288 +1,83 @@
 
-DEBUG = false
+@DEBUG = false
 
-t9nIt = (string) ->
+#
+# Global translation methods & helpers.
+#
+@t9nIt = (string) ->
   T9n?.get?(string) or string
-  
+
 Template.registerHelper 'mmT9nit', (string) ->
   t9nIt(string)
 
-class MaterializeModalClass
-
-  defaults:
-    title: 'Message'
-    message: ''
-    body_template_data: {}
-    type: 'message'
-    closeLabel: null
-    submitLabel: 'ok'
-    inputSelector: "#prompt-input"
-
-  options: {}
-
-
-  constructor: ->
-    @errorMessage = new ReactiveVar()
-    @bodyTemplate = new ReactiveVar()
-
-
-  reset: ->
-    @options = @defaults
-    @callback = null
-    @errorMessage.set(null)
-    
-
-  open: ->
-    console.log("MaterializeModal open", @) if DEBUG
-    Blaze.remove(@tmpl) if @tmpl?
-    @bodyTemplate.set(@options.bodyTemplate)
-    @tmpl = Blaze.renderWithData(Template.materializeModal, @options, document.body)
-
-
-  close: ->
-    console.log "close" if DEBUG
-    $('#materializeModal').closeModal
-      complete: ->
-        MaterializeModal.remove()
-
-
-  remove: ->
-    console.log("remove") if DEBUG
-    Blaze.remove(@tmpl)
-    @reset()
-    
-
-
-  modalReady: (tmpl) ->
-    console.log("materializeModal is open") if DEBUG
-
-
-  setTemplate: (template) ->
-    @options.bodyTemplate = template
-    @bodyTemplate.set(template)
-
-
-  message: (@options = {}) ->
-    _.defaults @options,
-      message: t9nIt 'You need to pass a message to materialize modal!'
-      title: t9nIt 'Message'
-      submitLabel: t9nIt 'ok'
-    , @defaults
-
-    @open()
-
-
-  alert: (@options = {}) ->
-    _.defaults @options,
-      type: 'alert'
-      message: t9nIt 'Alert'
-      title: t9nIt 'Alert'
-      label: t9nIt "Alert"
-      bodyTemplate: "materializeModalAlert"
-      submitLabel: t9nIt 'ok'
-      @defaults
-
-    @open()
-
-
-  error: (@options = {}) ->
-    _.defaults @options,
-      type: 'error'
-      message: t9nIt 'Error'
-      title: t9nIt 'Error'
-      label: t9nIt "Error"
-      bodyTemplate: "materializeModalError"
-      submitLabel: t9nIt 'ok'
-    , @defaults
-    
-    @open()
-
-
-  confirm: (@options = {}) ->
-    _.defaults @options,
-      type: 'confirm'
-      message: t9nIt 'Message'
-      title: t9nIt 'Confirm'
-      closeLabel: t9nIt 'cancel'
-      submitLabel: t9nIt 'ok'
-    , @defaults
-
-    @open()
-
-
-  prompt: (@options = {}) ->
-    _.defaults @options,
-      type: 'prompt'
-      message: t9nIt 'Feedback?'
-      title: t9nIt 'Prompt'
-      bodyTemplate: 'materializeModalPrompt'
-      closeLabel: t9nIt 'cancel'
-      submitLabel: t9nIt 'submit'
-      placeholder: t9nIt "Type something here"
-    , @defaults
-
-    @open()
-
-
-  loading: (@options = {}) ->
-    _.defaults @options,
-      message: t9nIt('Loading') + ' ...'
-      title: t9nIt 'Loading'
-      bodyTemplate: 'materializeModalLoading'
-      submitLabel: t9nIt 'cancel'
-    , @defaults
-
-    @open()
-
-
-  form: (@options = {}) ->
-    console.log("form options", @options) if DEBUG
-    if not @options.bodyTemplate?
-      Materialize.toast(t9nIt "Error: No template specified!", 3000, "red")
-    else
-      _.defaults @options,
-        type: 'form'
-        title: t9nIt "Edit Record"
-        submitLabel: '<i class="material-icons left">save</i>' + t9nIt('save')
-        closeLabel: '<i class="material-icons left">not_interested</i>' + t9nIt('cancel')
-      , @defaults
-
-      if @options.smallForm
-        @options.size = 'modal-sm'
-        @options.btnSize = 'btn-sm'
-      @open()
-
-
-  addValueToObjFromDotString: (obj, dotString, value) ->
-    path = dotString.split(".")
-    tmp = obj
-    lastPart = path.pop()
-    for part in path
-      # loop through each part of the path adding to obj
-      if not tmp[part]?
-        tmp[part] = {}
-      tmp = tmp[part]
-    if lastPart?
-      tmp[lastPart] = value
-
-
-  fromForm: (form) ->
-    console.log("fromForm", form) if DEBUG
-    result = {}
-    for key in form?.serializeArray() # This Works do not change!!!
-      @addValueToObjFromDotString(result, key.name, key.value)
-    # Override the result with the boolean values of checkboxes, if any
-    for check in form?.find "input:checkbox"
-      if $(check).prop('name')
-        result[$(check).prop('name')] = $(check).prop 'checked'
-    console.log("fromForm result", result) if DEBUG
-    result
-
-
-  doCallback: (yesNo, event, form) ->
-    if yesNo
-      switch @options.type
-        when 'prompt'
-          returnVal = $(@options.inputSelector).val()
-        when 'select'
-          returnVal = $('select option:selected')
-        when 'form'
-          if form?
-            returnVal = @fromForm(form)
-          else
-            returnVal = null
-        else
-          returnVal = null
-
-    if @options.callback?
-      try
-        @options.callback(yesNo, returnVal, event)
-      catch error
-        console.log("MaterializeModal Callback returned Error", error)
-        Materialize.toast("#{error.reason}", 3000, 'toast-error')
-        return false
-
-    true
-    
-
-###
-
-  status: (message, callback, title = 'Status', cancelText = 'Cancel') ->
-    @_setData message, title, "materializeModalstatus",
-      message: message
-    @callback = callback
-    @set("submitLabel", cancelText)
-    @_show()
-
-  updateProgressMessage: (message) ->
-    if DEBUG
-      console.log("updateProgressMessage", $("#progressMessage").html(), message)
-    if $("#progressMessage").html()?
-      $("#progressMessage").fadeOut 400, ->
-        $("#progressMessage").html(message)
-        $("#progressMessage").fadeIn(400)
-    else
-      @set("message", message)
-
-###
-
-
+#
+# Create instance of MaterializeModal to handle event and
+# modal construction logic.
+#
 MaterializeModal = new MaterializeModalClass()
 
+###
+#     Template.materializeModalContainer
+###
+Template.materializeModalContainer.helpers
+  modalOptions: ->
+    Template.currentData().get() or null
 
+###
+#     Template.materializeModal
+###
 Template.materializeModal.onCreated ->
-  console.log("materializeModal created", @data) if DEBUG
-
+  console.log("Template.materializeModal.created", @data) if DEBUG
 
 Template.materializeModal.onRendered ->
-  console.log("materializeModal rendered", @data.title)  if DEBUG
-  inDuration = 300
-  if @data.fullscreen
-    inDuration = 0
-  @$('#materializeModal').openModal
+  console.log("Template.materializeModal.rendered", @data.title)  if DEBUG
+  #
+  # (1) Update the jQuery handle of the modal instance with the latest
+  #     modal DOM element.
+  #
+  MaterializeModal.$modal = $ @find '#materializeModal'
+  #
+  # (2) Compute modal animation duration.
+  #     Fullscreen modals should appear instantly.
+  #     Otherwise, 300ms transition.
+  #
+  if @data.fullscreen then inDuration = 0 else 300
+  #
+  # (3) Call Materialize's openModal() method to make
+  #     the modal content appear.
+  #
+  # Set a callback to handle destroying the materializeModal template
+  # if the user "completes" the modal, for instance by clicking
+  # the background.
+  #
+  MaterializeModal.$modal.openModal
     in_duration: inDuration
-    ready: =>
-      if @data.fullscreen
-        Meteor.setTimeout ->
-          console.log("move top for fullscreen") if DEBUG
-          @$('#materializeModal').css('top', 0)
-        , 5
-      MaterializeModal.modalReady(@)
+    ready: ->
+      console.log "materializeModal: ready" if DEBUG
     complete: ->
-      console.log("materializeModal: complete") if DEBUG
-      MaterializeModal.remove()
-
-#    Meteor.defer ->
-#        $('#prompt-input')?.focus()
-
+      console.log "materializeModal: complete" if DEBUG
+      MaterializeModal.close false
 
 Template.materializeModal.onDestroyed ->
-  console.log("materializeModal destroyed") if DEBUG
+  console.log("Template.materializeModal.destroyed") if DEBUG
 
+Template.materializeModalForm.helpers
+  #
+  # isForm: Only true when the modal is a form.
+  #
+  isForm: ->
+    @type in [ 'form', 'prompt' ]
 
 Template.materializeModal.helpers
-
-  template: ->
-    bodyTemplate = MaterializeModal.bodyTemplate.get()
-    console.log("render template?", @) if DEBUG
-    if bodyTemplate? and Template[@bodyTemplate]?
-      console.log("render template", bodyTemplate) if DEBUG
-      bodyTemplate
-
-
-  templateData: ->
-    if MaterializeModal.bodyTemplate.get()?
-      @
-
-
-  isForm: ->
-    MaterializeModal.type is 'form'
-
-
-  errorMessage: ->
-    MaterializeModal.errorMessage.get()
-
-
+  #
+  # bodyTemplate: The name of the template that should be rendered
+  #               in the modal's body area.
+  #
+  bodyTemplate: ->
+    @bodyTemplate or null
+  #
+  # icon: Return a Material icon code for the Modal.
+  #
   icon: ->
     if @icon
       @icon
@@ -293,41 +88,33 @@ Template.materializeModal.helpers
           'warning'
         when 'error'
           'error'
-
-
+  #
+  # modalFooter:
+  #
   modalFooter: ->
     @footerTemplate or 'materializeModalFooter'
-
-
+  #
+  # modalFooterData:
+  #
   modalFooterData: ->
-    _.extend({}, @, @footerTemplateData)
-
+    _.extend {}, @, @footerTemplateData
 
 Template.materializeModal.events
   "click #closeButton": (e, tmpl) ->
     e.preventDefault()
     console.log('closeButton') if DEBUG
-    MaterializeModal.doCallback(false, e)
-    console.log('call closeModal') if DEBUG
-    tmpl.$('#materializeModal').closeModal
-      complete: ->
-        MaterializeModal.remove()
-    
-
-
-  "click #submitButton": (e, tmpl) ->
+    MaterializeModal.close false
+  "submit form#materializeModalForm, click button#submitButton": (e, tmpl) ->
     e.preventDefault()
-    form = tmpl?.$('form')
+    form = tmpl?.$('form#materializeModalForm')
     console.log('submit event:', e, "form:", form) if DEBUG
-    if MaterializeModal.doCallback(true, e, form)
-      console.log('call closeModal') if DEBUG
-      tmpl.$('#materializeModal').closeModal
-        complete: ->
-          MaterializeModal.remove()
-    
+    MaterializeModal.close true,
+      event: e
+      form: form
+    false # this prevents the page from refreshing on form submission!
 
 
-Template.materializeModalstatus.helpers
+
+Template.materializeModalStatus.helpers
   progressMessage: ->
     #....
-

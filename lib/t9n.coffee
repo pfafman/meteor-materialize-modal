@@ -23,7 +23,7 @@ en =
   'Loading': 'Loading'
   "Error: No template specified!": "Error: No template specified!"
   "Edit Record": "Edit Record"
-  
+
 T9n?.map?("en", en)
 
 
@@ -45,7 +45,7 @@ it =
   "You need to pass a message to materialize modal!": "È necessario passare un messaggio a materializzarsi modale!"
   "Close": "Vicino"
   "save": "salvare"
-  
+
 T9n?.map?("it", it)
 
 
@@ -157,6 +157,3 @@ es =
   "save": "guardar"
 
 T9n?.map?('es', 'es')
-
-
-  
