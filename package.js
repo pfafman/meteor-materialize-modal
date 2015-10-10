@@ -1,7 +1,7 @@
 Package.describe({
   name: "pfafman:materialize-modal",
   summary: "Display a modal via Materialize written in coffeescript",
-  version: "0.4.0_1",
+  version: "1.0.0",
   git: "https://github.com/pfafman/meteor-materialize-modal.git"
 });
 

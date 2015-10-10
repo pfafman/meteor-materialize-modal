@@ -1,11 +1,12 @@
 
-@DEBUG = false
+DEBUG = false
 
 #
 # Global translation methods & helpers.
 #
 @t9nIt = (string) ->
   T9n?.get?(string) or string
+
 
 Template.registerHelper 'mmT9nit', (string) ->
   t9nIt(string)
@@ -16,32 +17,38 @@ Template.registerHelper 'mmT9nit', (string) ->
 #
 MaterializeModal = new MaterializeModalClass()
 
+
 ###
 #     Template.materializeModalContainer
 ###
 Template.materializeModalContainer.helpers
   modalOptions: ->
-    Template.currentData().get() or null
+    Template.currentData().get()
+
 
 ###
 #     Template.materializeModal
 ###
 Template.materializeModal.onCreated ->
-  console.log("Template.materializeModal.created", @data) if DEBUG
+  console.log("Template.materializeModal.onCreated", @data) if DEBUG
+
 
 Template.materializeModal.onRendered ->
-  console.log("Template.materializeModal.rendered", @data.title)  if DEBUG
+  console.log("Template.materializeModal.onRendered", @data.title)  if DEBUG
+
   #
   # (1) Update the jQuery handle of the modal instance with the latest
   #     modal DOM element.
   #
   MaterializeModal.$modal = $ @find '#materializeModal'
+
   #
   # (2) Compute modal animation duration.
   #     Fullscreen modals should appear instantly.
   #     Otherwise, 300ms transition.
   #
   if @data.fullscreen then inDuration = 0 else 300
+
   #
   # (3) Call Materialize's openModal() method to make
   #     the modal content appear.
@@ -53,28 +60,25 @@ Template.materializeModal.onRendered ->
   MaterializeModal.$modal.openModal
     in_duration: inDuration
     ready: ->
-      console.log "materializeModal: ready" if DEBUG
+      console.log("materializeModal: ready") if DEBUG
     complete: ->
-      console.log "materializeModal: complete" if DEBUG
+      console.log("materializeModal: complete") if DEBUG
       MaterializeModal.close false
 
-Template.materializeModal.onDestroyed ->
-  console.log("Template.materializeModal.destroyed") if DEBUG
 
-Template.materializeModalForm.helpers
-  #
-  # isForm: Only true when the modal is a form.
-  #
-  isForm: ->
-    @type in [ 'form', 'prompt' ]
+Template.materializeModal.onDestroyed ->
+  console.log("Template.materializeModal.onDestroyed") if DEBUG
+
 
 Template.materializeModal.helpers
+  
   #
   # bodyTemplate: The name of the template that should be rendered
   #               in the modal's body area.
   #
   bodyTemplate: ->
     @bodyTemplate or null
+  
   #
   # icon: Return a Material icon code for the Modal.
   #
@@ -88,22 +92,27 @@ Template.materializeModal.helpers
           'warning'
         when 'error'
           'error'
+  
   #
   # modalFooter:
   #
   modalFooter: ->
     @footerTemplate or 'materializeModalFooter'
+  
   #
   # modalFooterData:
   #
   modalFooterData: ->
-    _.extend {}, @, @footerTemplateData
+    _.extend({}, @, @footerTemplateData)
+
 
 Template.materializeModal.events
+  
   "click #closeButton": (e, tmpl) ->
     e.preventDefault()
     console.log('closeButton') if DEBUG
-    MaterializeModal.close false
+    MaterializeModal.close(false)
+
   "submit form#materializeModalForm, click button#submitButton": (e, tmpl) ->
     e.preventDefault()
     form = tmpl?.$('form#materializeModalForm')
@@ -113,6 +122,13 @@ Template.materializeModal.events
       form: form
     false # this prevents the page from refreshing on form submission!
 
+
+Template.materializeModalForm.helpers
+  #
+  # isForm: Only true when the modal is a form.
+  #
+  isForm: ->
+    @type in [ 'form', 'prompt' ]
 
 
 Template.materializeModalStatus.helpers

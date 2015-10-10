@@ -1,9 +1,14 @@
 Meteor-Materialize-Modal
 ========================
 
-A pattern to display application modal dialogs via a [Materialize](http://materializecss.com), written in coffeescript.
+A pattern to display application modal dialogs via [Materialize](http://materializecss.com), written in coffeescript.
 
-*Warning: Only works with Meteor 1.0.4+*
+*Warning: Only tested on Meteor 1.2+*
+
+### Version 1.0 Changes
+* *The callbacks have changed form in version 1.0 to reflect the 'node way'.*
+
+* *There is now a very good example [***site***](http://materializemodal.meteor.com) done by [*@msolters*](https://github.com/msolters), who also did the refractoring work for version 1.0. and added new modals!*
 
 ## Install
 
@@ -14,7 +19,7 @@ meteor add pfafman:materialize-modal
 ## Usage
 
 ```
-	MaterializeModal.[message|alert|error|confirm|prompt|form](options={})
+	MaterializeModal.[message|alert|error|confirm|prompt|form|loading|progress](options={})
 ```
 
 ### Options
@@ -23,11 +28,11 @@ meteor add pfafman:materialize-modal
 * label - Strong label in front of body
 * message - message body.  Can have HTML markup
 * placeholder - If prompt then the placehoder for the text field
-* callback(yesNo, data, event) - callback function with 
-	* yesNo - bool true if the user hit the OK/Submit button
-	* data - applicable data object key:value
-	* event - event that triggered the callback
+* callback(error, rtn) - callback function with 
+	* rtn.submit - bool true if the user hit the OK/Submit button
+	* rtn.value - applicable data object key:value
 	
+
 * bodyTemplate - Name of the template to use as the body for the modal.
 * icon - Markup for the icon to display
 * closeLabel - Text for close/dismiss button
@@ -46,6 +51,8 @@ You can change the UI by overwriting the CSS.
 ```
 
 ## Examples
+
+
 To display a modal
 
 ```coffeescript
@@ -63,31 +70,24 @@ MaterializeModal.error
 MaterializeModal.confirm
     title: 'title'
     message: 'You feeling groovy?'
-    callback: (yesNo) ->
-    	if yesNo
+    callback: (error, rtn) ->
+    	if rtn?.submit
     	    Materialize.toast("Glad to here it!", 3000, 'green')
     	else
     		Materialize.toast("Too bad")
 
 MaterializeModal.prompt
 	message: 'Enter something'
-	callback: (yesNo, rtn, event) ->
-		if yesNo
-			Materialize.toast("You entered #{rtn}", 3000, 'green')
+	callback: (error, rtn) ->
+		if rtn?.submit
+			Materialize.toast("You entered #{rtn.value}", 3000, 'green')
 
 MaterializeModal.form
 	bodyTemplate: 'testForm'
-	callback: (yesNo, rtn, event) ->
-		if yesNo
-			console.log("Form data", rtn)         
+	callback: (error, rtn ->
+		if rtn.submit
+			console.log("Form data", rtn.value)         
 ```	
-
-## TODO
-
-* select modal
-* fix loading modal
-* progress modal with updates
-
 
 
 ## Notes
