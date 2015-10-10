@@ -6,7 +6,7 @@ A pattern to display application modal dialogs via [Materialize](http://material
 *Warning: Only tested on Meteor 1.2+*
 
 ### Version 1.0 Changes
-* *The callbacks have changed form in version 1.0 to reflect the 'node way'.*
+* *The callbacks have changed form in version 1.0 to reflect the 'node way'.*  So you need to change your callback from `callback(yesNo, ...)` to `callback(error, rtn)`.  `yesNo` is now at `rtn.submit`!
 
 * *There is now a very good example [***site***](http://materializemodal.meteor.com) done by [*@msolters*](https://github.com/msolters), who also did the refractoring work for version 1.0. and added new modals!*
 
