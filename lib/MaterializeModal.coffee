@@ -1,4 +1,5 @@
-DEBUG = true
+
+DEBUG = false
 
 
 class @MaterializeModalClass
@@ -219,10 +220,11 @@ class @MaterializeModalClass
   #           attribute will be parsed.
   #
   fromForm: (form) ->
-    console.log("fromForm", form) if DEBUG
+    console.log("fromForm", form, form?.serializeArray()) if DEBUG
     result = {}
     for key in form?.serializeArray()
       @addValueToObjFromDotString(result, key.name, key.value)
+    
     # Override the result with the boolean values of checkboxes, if any
     for check in form?.find "input:checkbox"
       if $(check).prop('name')
