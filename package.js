@@ -1,7 +1,7 @@
 Package.describe({
   name: "pfafman:materialize-modal",
   summary: "Display a modal via Materialize written in coffeescript",
-  version: "1.0.0_1",
+  version: "1.0.1",
   git: "https://github.com/pfafman/meteor-materialize-modal.git"
 });
 
@@ -17,7 +17,7 @@ Package.onUse(function(api, where) {
   ], 'client');
 
   api.use([
-    'softwarerero:accounts-t9n@1.1.4',
+    'softwarerero:accounts-t9n@1.1.0',
     'coffeescript'
   ], ["client", "server"]);
 
@@ -29,7 +29,8 @@ Package.onUse(function(api, where) {
   ], 'client');
 
   api.addFiles([
-    'lib/t9n.coffee'
+    'lib/t9n.coffee',
+    'lib/warning.coffee'
   ], ['client', 'server']);
 
   if (api.export) {
